@@ -3,6 +3,10 @@ const rootPath = path.normalize(path.join(__dirname, '../../'))
 const databaseName = 'express-react-redux'
 
 module.exports = {
+  jwtSecret: 'MyS3cr3tK3Y',
+  jwtSession: {
+    session: false
+  },
   development: {
     rootPath: rootPath,
     db: `mongodb://localhost/${databaseName}`,

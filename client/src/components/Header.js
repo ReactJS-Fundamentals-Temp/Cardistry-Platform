@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-import { Navbar, MenuItem, NavItem, Nav, NavDropdown } from 'react-bootstrap'
+import { Navbar, NavItem, Nav } from 'react-bootstrap'
 
 export default class Header extends Component {
   renderLinks () {
     return [
+      <NavItem eventKey={1} key='register'><Link to='/register'>REGISTER</Link></NavItem>,
+      <NavItem eventKey={1} key='login'><Link to='/login'>LOGIN</Link></NavItem>
     ]
   }
 
@@ -23,6 +25,9 @@ export default class Header extends Component {
             <NavItem eventKey={1}><Link to='/versus'>VERSUS</Link></NavItem>
             <NavItem eventKey={1}><Link to='/about'>ABOUT</Link></NavItem>
             <NavItem eventKey={1}><Link to='/contacts'>CONTACTS</Link></NavItem>
+          </Nav>
+          <Nav pullRight>
+            {this.renderLinks()}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

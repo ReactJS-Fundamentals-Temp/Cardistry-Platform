@@ -1,3 +1,6 @@
+const passport = require('passport')
+const passportService = require('../config/passport')
+
 module.exports = {
   isGuest: (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -30,5 +33,7 @@ module.exports = {
         }
       }
     }
-  }
+  },
+  requireAuth: passport.authenticate('jwt', { session: false }),
+  requireSignIn: passport.authenticate('local', { session: false })
 }

@@ -1,4 +1,4 @@
-const usersCollectionSeeder = require('../seeders/users-seeder')
+const usersCollectionSeeder = require('../users/users-seeder')
 
 module.exports = () => {
   usersCollectionSeeder()

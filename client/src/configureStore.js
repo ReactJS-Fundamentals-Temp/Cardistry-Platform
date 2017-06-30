@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 
-import configureRootReducer from '../reducers/configureRootReducer'
+import configureRootReducer from './configureRootReducer'
 
 const initialState = {}
 
