@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react'
-import { reduxForm } from 'redux-form'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { reduxForm, Field } from 'redux-form'
 import { Form, FormGroup, FormControl, Col, ControlLabel, Button } from 'react-bootstrap'
 
 import { registerUser } from '../modules/authentication'
@@ -7,9 +9,9 @@ import { registerUser } from '../modules/authentication'
 
 class RegisterForm extends Component {
     constructor(props) {
-        super(props);
+        super(props)
 
-        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this)
     }
 
     static contextTypes = {
@@ -17,6 +19,7 @@ class RegisterForm extends Component {
     }
 
     handleFormSubmit({email, username, password, confirmPassword}) {
+        console.log('Submit')
         this.props.registerUser({ email, username, password, confirmPassword });
     }
 
@@ -35,13 +38,13 @@ class RegisterForm extends Component {
         const {fields: {email, username, password, confirmPassword}, handleSubmit} = this.props;
 
         return (
-        <Form horizontal>
+        <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
             <FormGroup controlId="formHorizontalEmail">
             <Col componentClass={ControlLabel} sm={2}>
                 Email
             </Col>
             <Col sm={10}>
-                <FormControl type="email" placeholder="Email" />
+                <FormControl type="email" placeholder="Email" {...email}/>
             </Col>
             </FormGroup>
 
@@ -50,7 +53,7 @@ class RegisterForm extends Component {
                 Username
             </Col>
             <Col sm={10}>
-                <FormControl type="text" placeholder="Username" />
+                <FormControl type="text" placeholder="Username" {...username}/>
             </Col>
             </FormGroup>
 
@@ -59,7 +62,7 @@ class RegisterForm extends Component {
                 Password
             </Col>
             <Col sm={10}>
-                <FormControl type="password" placeholder="Password" />
+                <FormControl type="password" placeholder="Password" {...password}/>
             </Col>
             </FormGroup>
 
@@ -68,7 +71,7 @@ class RegisterForm extends Component {
                 Confirm Password
             </Col>
             <Col sm={10}>
-                <FormControl type="password" placeholder="Confirm Password" />
+                <FormControl type="password" placeholder="Confirm Password" {...confirmPassword}/>
             </Col>
             </FormGroup>
 
@@ -113,8 +116,12 @@ function mapStateToProps(state) {
     }
 }
 
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ registerUser }, dispatch);
+}
+
 export default reduxForm({
     form: 'RegisterForm',
     fields: ['email', 'username', 'password', 'confirmPassword'],
     validate
-}, mapStateToProps, { registerUser })(RegisterForm);
+}, mapStateToProps, mapDispatchToProps)(RegisterForm)

@@ -5,6 +5,8 @@ const config = require('../config/config')
 function register (req, res) {
   let newUserData = req.body
 
+  console.log(newUserData)
+
   if (!newUserData.username || !newUserData.email || !newUserData.password || !newUserData.confirmPassword) {
     let errors = []
 
@@ -29,11 +31,11 @@ function register (req, res) {
     return res.redirect('/users/register')
   }
 
-  if (newUserData.password == newUserData.confirmPassword) {
+  if (newUserData.password === newUserData.confirmPassword) {
     let user = new User()
     user.username = newUserData.username
     user.email = newUserData.email
-    user.password = newUserData.password
+    user.password = user.encryptPassword(newUserData.password)
     user.save((err) => {
       if (err) {
         console.log(err.message, 'errmsg')
@@ -41,6 +43,8 @@ function register (req, res) {
 
         return res.status(422).json({error: err.message})
       }
+
+      console.log(tokenForUser(user))
 
       res.json({ token: tokenForUser(user) })
     })

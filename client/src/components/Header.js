@@ -1,13 +1,27 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { Link } from 'react-router'
 import { Navbar, NavItem, Nav } from 'react-bootstrap'
 
-export default class Header extends Component {
+import { logoutUser } from '../authentication/modules/authentication.js'
+
+class Header extends Component {
+  handleLogout () {
+    this.props.logoutUser()
+  }
+
   renderLinks () {
-    return [
-      <NavItem eventKey={1} key='register'><Link to='/register'>REGISTER</Link></NavItem>,
-      <NavItem eventKey={1} key='login'><Link to='/login'>LOGIN</Link></NavItem>
-    ]
+    if (this.props.authenticated) {
+      return [
+        <NavItem eventKey={1} key='logout' onClick={this.handleLogout.bind(this)}>LOGOUT</NavItem>
+      ]
+    } else {
+      return [
+        <NavItem eventKey={1} key='register'><Link to='/register'>REGISTER</Link></NavItem>,
+        <NavItem eventKey={1} key='login'><Link to='/login'>LOGIN</Link></NavItem>
+      ]
+    }
   }
 
   render () {
@@ -34,3 +48,14 @@ export default class Header extends Component {
     )
   }
 }
+
+function mapStateToProps (state) {
+  console.log(state, 'state')
+  return { authenticated: state.authentication.authenticated }
+}
+
+function mapDispatchToProps (dispatch) {
+  return bindActionCreators({ logoutUser }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

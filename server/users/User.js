@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt-nodejs')
 let userSchema = mongoose.Schema({
+  email: { type: String, unique: true },
   username: {type: String, required: true, unique: true},
   password: String,
-  roles: [String],
-  blacklist: [{ type: mongoose.Schema.ObjectId, ref: 'User' }]
+  roles: [String]
 })
 
 userSchema.methods.encryptPassword = (password) => {
@@ -13,6 +13,16 @@ userSchema.methods.encryptPassword = (password) => {
 
 userSchema.methods.validPassword = (attemptPassword, hashedUserPassword) => {
   return bcrypt.compareSync(attemptPassword, hashedUserPassword)
+}
+
+userSchema.methods.comparePassword = function (candidatePassword, callback) {
+  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+    if (err) {
+      return callback(err)
+    }
+
+    callback(null, isMatch)
+  })
 }
 
 module.exports = mongoose.model('User', userSchema)

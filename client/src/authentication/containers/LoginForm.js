@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import { Form, FormGroup, FormControl, Col, ControlLabel, Button } from 'react-bootstrap'
 
@@ -35,13 +37,13 @@ class LoginForm extends Component {
         const {fields: {email, username, password, confirmPassword}, handleSubmit} = this.props;
 
         return (
-        <Form horizontal>
+        <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
             <FormGroup controlId="formHorizontalEmail">
             <Col componentClass={ControlLabel} sm={2}>
                 Email
             </Col>
             <Col sm={10}>
-                <FormControl type="email" placeholder="Email" />
+                <FormControl type="email" placeholder="Email" {...email} />
             </Col>
             </FormGroup>
 
@@ -50,7 +52,7 @@ class LoginForm extends Component {
                 Password
             </Col>
             <Col sm={10}>
-                <FormControl type="password" placeholder="Password" />
+                <FormControl type="password" placeholder="Password" {...password} />
             </Col>
             </FormGroup>
 
@@ -87,8 +89,12 @@ function mapStateToProps(state) {
     }
 }
 
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ loginUser }, dispatch);
+}
+
 export default reduxForm({
     form: 'LoginForm',
     fields: ['email', 'password'],
     validate
-}, mapStateToProps, { loginUser })(LoginForm);
+}, mapStateToProps, mapDispatchToProps)(LoginForm)

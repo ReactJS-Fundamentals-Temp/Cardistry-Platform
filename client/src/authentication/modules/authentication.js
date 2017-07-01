@@ -60,7 +60,7 @@ export function authErrorUser (error) {
 }
 
 // Reducer
-export default function reducer (state = {}, action = {}) {
+export default function reducer (state = { authenticated: false }, action = {}) {
   switch (action.type) {
     case LOGIN_USER:
       return Object.assign({}, state, { authenticated: true })

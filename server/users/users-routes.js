@@ -4,6 +4,7 @@ const usersController = require('./users-controller')
 const auth = require('../middlewares/auth')
 
 router.post('/register', auth.isGuest, (req, res) => {
+  console.log('REGISTER NOW')
   usersController.register(req, res)
 })
 
