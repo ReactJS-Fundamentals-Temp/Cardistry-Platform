@@ -116,7 +116,6 @@ module.exports = (config, app, env) => {
     app.use(webpackHotMiddleware(compiler))
     app.get('*', function response (req, res) {
       console.log(req.url)
-      console.log(req.url)
       req.url = '/'
       app.handle(req, res)
 

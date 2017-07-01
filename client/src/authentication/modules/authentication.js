@@ -16,7 +16,7 @@ export function registerUser ({email, username, password, confirmPassword}) {
     axios.post(`${BASE_URL}/${API_VERSION}/users/register`, { email, username, password, confirmPassword })
             .then(response => {
               console.log(response)
-              dispatch({type: LOGIN_USER})
+              loginUser({email, password})
               localStorage.setItem('token', response.data.token)
               browserHistory.push('/')
             })
@@ -31,7 +31,7 @@ export function loginUser ({email, password}) {
   return dispatch => {
     axios.post(`${BASE_URL}/${API_VERSION}/users/signin`, { email, password })
             .then(response => {
-              dispatch({type: LOGIN_USER})
+              dispatch({type: LOGIN_USER, payload: { user: response.data.user }})
               sessionStorage.setItem('token', response.data.token)
               browserHistory.push('/')
             })
@@ -60,12 +60,13 @@ export function authErrorUser (error) {
 }
 
 // Reducer
-export default function reducer (state = { authenticated: false }, action = {}) {
+export default function reducer (state = { authenticated: false, currentUser: {} }, action = {}) {
+  console.log(action)
   switch (action.type) {
     case LOGIN_USER:
-      return Object.assign({}, state, { authenticated: true })
+      return Object.assign({}, state, { authenticated: true, currentUser: action.payload.user })
     case LOGOUT_USER:
-      return Object.assign({}, state, { authenticated: false })
+      return Object.assign({}, state, { authenticated: false, currentUser: {} })
     case AUTH_ERROR_USER:
       return Object.assign({}, state, { error: action.payload })
     default: return state

@@ -10,6 +10,7 @@ import ContactsPage from './pages/ContactsPage'
 
 import RegisterPage from './authentication/pages/RegisterPage'
 import LoginPage from './authentication/pages/LoginPage'
+import ProfilePage from './authentication/pages/ProfilePage'
 
 import NotFoundPage from './pages/NotFoundPage'
 import PracticePage from './pages/PracticePage'
@@ -28,6 +29,7 @@ export default class Routes extends Component {
           {/* Authentication */}
           <Route path='/register' component={RegisterPage} />
           <Route path='/login' component={LoginPage} />
+          <Route path='/users/:username' component={ProfilePage} />
 
           {/* Practice */}
           <Route path='/practice' component={PracticePage} />

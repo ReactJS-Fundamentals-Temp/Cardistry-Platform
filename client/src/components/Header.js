@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link } from 'react-router'
-import { Navbar, NavItem, Nav } from 'react-bootstrap'
+import { Navbar, NavItem, Nav, NavDropdown, MenuItem } from 'react-bootstrap'
 
 import { logoutUser } from '../authentication/modules/authentication.js'
 
@@ -14,7 +14,11 @@ class Header extends Component {
   renderLinks () {
     if (this.props.authenticated) {
       return [
-        <NavItem eventKey={1} key='logout' onClick={this.handleLogout.bind(this)}>LOGOUT</NavItem>
+        <NavDropdown eventKey={3} title={this.props.currentUser.username} id='basic-nav-dropdown' key='accountDropdown'>
+          <MenuItem eventKey={3.1}><Link to={`users/${this.props.currentUser.username}`}>Profile</Link></MenuItem>
+          <MenuItem divider />
+          <MenuItem eventKey={3.4} onClick={this.handleLogout.bind(this)}>LOGOUT</MenuItem>
+        </NavDropdown>
       ]
     } else {
       return [
@@ -51,7 +55,7 @@ class Header extends Component {
 
 function mapStateToProps (state) {
   console.log(state, 'state')
-  return { authenticated: state.authentication.authenticated }
+  return { authenticated: state.authentication.authenticated, currentUser: state.authentication.currentUser }
 }
 
 function mapDispatchToProps (dispatch) {
