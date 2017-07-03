@@ -115,6 +115,7 @@ module.exports = (config, app, env) => {
     app.use(middleware)
     app.use(webpackHotMiddleware(compiler))
     app.get('*', function response (req, res) {
+      console.log('FUCK1')
       console.log(req.url)
       req.url = '/'
       app.handle(req, res)

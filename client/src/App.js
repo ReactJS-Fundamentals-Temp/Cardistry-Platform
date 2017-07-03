@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import Master from '../layouts/Master'
+import Master from './layouts/master/Master'
 
 export default class App extends Component {
   render () {

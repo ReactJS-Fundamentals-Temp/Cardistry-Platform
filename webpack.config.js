@@ -29,20 +29,28 @@ module.exports = {
     })
   ],
   module: {
-    loaders: [{
-      test: /\.jsx?$/,
-      exclude: /node_modules/,
-      loader: 'babel',
-      query: {
-        'presets': ['react', 'es2015', 'stage-1', 'react-hmre']
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: 'babel',
+        query: {
+          'presets': ['react', 'es2015', 'stage-1', 'react-hmre']
+        }
+      },
+      {
+        test: /\.json?$/,
+        loader: 'json'
+      },
+      {
+        test: /\.css$/,
+        loader: 'style!css?modules&localIdentName=[name]---[local]---[hash:base64:5]'
+      },
+      {
+        test: /\.(png|jpg)$/,
+        loader: 'file-loader'
       }
-    }, {
-      test: /\.json?$/,
-      loader: 'json'
-    }, {
-      test: /\.css$/,
-      loader: 'style!css?modules&localIdentName=[name]---[local]---[hash:base64:5]'
-    }]
+    ]
   },
   resolve: {
     extensions: ['', '.js', '.jsx']

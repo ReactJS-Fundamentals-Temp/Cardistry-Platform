@@ -1,8 +1,6 @@
 import axios from 'axios'
 import { browserHistory } from 'react-router'
-
-const BASE_URL = 'http://localhost:1312'
-const API_VERSION = 'api/v1'
+import { BASE_URL, API_VERSION } from '../../utilities/api'
 
 // Actions
 // const REGISTER_USER = 'REGISTER_USER'
@@ -61,7 +59,6 @@ export function authErrorUser (error) {
 
 // Reducer
 export default function reducer (state = { authenticated: false, currentUser: {} }, action = {}) {
-  console.log(action)
   switch (action.type) {
     case LOGIN_USER:
       return Object.assign({}, state, { authenticated: true, currentUser: action.payload.user })
