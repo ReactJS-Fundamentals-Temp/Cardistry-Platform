@@ -19,7 +19,7 @@ export function fetchFlourishes () {
 }
 
 // Reducer
-export default function reducer (state = {}, action = {}) {
+export default function reducer (state = {all: []}, action = {}) {
   switch (action.type) {
     case FETCH_FLOURISHES:
       return Object.assign({}, state, { all: action.payload.flourishes })

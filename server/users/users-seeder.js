@@ -9,6 +9,7 @@ module.exports = () => {
       if (users.length === 0) {
         let adminUser = new User()
         adminUser.username = 'admin'
+        adminUser.email = 'admin@cardistry.com'
         adminUser.password = adminUser.encryptPassword('admin')
         adminUser.roles = ['Admin']
         adminUser.save()

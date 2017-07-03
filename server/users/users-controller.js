@@ -5,7 +5,7 @@ const config = require('../config/config')
 function register (req, res) {
   let newUserData = req.body
 
-  console.log(newUserData)
+  console.log(newUserData, 'newUserData')
 
   if (!newUserData.username || !newUserData.email || !newUserData.password || !newUserData.confirmPassword) {
     let errors = []

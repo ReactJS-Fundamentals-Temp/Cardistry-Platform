@@ -7,7 +7,7 @@ import { fetchFlourishes } from '../modules/flourishes.js'
 import FlourishList from '../components/FlourishList'
 
 class FlourishesPage extends Component {
-  componentWillMount () {
+  componentDidMount () {
     this.props.fetchFlourishes()
     console.log(this.props.flourishes, 'flourishes')
   }

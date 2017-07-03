@@ -4,14 +4,9 @@ const fileUpload = require('express-fileupload')
 const session = require('express-session')
 const hbs = require('express-handlebars')
 const passport = require('passport')
-const webpack = require('webpack')
-const webpackMiddleware = require('webpack-dev-middleware')
-const webpackHotMiddleware = require('webpack-hot-middleware')
-const webpackConfig = require('../../webpack.config.js')
-const path = require('path')
 const morgan = require('morgan')
 
-module.exports = (config, app, env) => {
+module.exports = (config, app) => {
   app.use(morgan('dev'))
   app.set('views', config.rootPath + 'server/views')
   app.set('view engine', 'hbs')
@@ -96,41 +91,6 @@ module.exports = (config, app, env) => {
     next()
   })
 
-  if (env !== 'production') {
-    console.log(env)
-    const compiler = webpack(webpackConfig)
-    const middleware = webpackMiddleware(compiler, {
-      publicPath: webpackConfig.output.publicPath,
-      contentBase: 'src',
-      stats: {
-        colors: true,
-        hash: false,
-        timings: true,
-        chunks: false,
-        chunkModules: false,
-        modules: false
-      }
-    })
-
-    app.use(middleware)
-    app.use(webpackHotMiddleware(compiler))
-    app.get('*', function response (req, res) {
-      console.log('FUCK1')
-      console.log(req.url)
-      req.url = '/'
-      app.handle(req, res)
-
-      // res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'dist/index.html')))
-      // res.end()
-    })
-  } else {
-    app.use(express.static(__dirname + '/dist'))
-    app.get('*', function response (req, res) {
-      res.sendFile(path.join(__dirname, 'dist/index.html'))
-    })
-  }
-
-  console.log(config.rootPath, 'rootPath')
   app.use('/client', express.static(config.rootPath + '/client/'))
   app.use('/node_modules', express.static(config.rootPath + '/node_modules'))
   app.use('/bower_components', express.static(config.rootPath + '/bower_components'))

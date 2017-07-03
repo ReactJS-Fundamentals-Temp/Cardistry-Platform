@@ -11,13 +11,13 @@ const initialState = {}
 
 const rootReducer = configureRootReducer()
 const middleware = [reduxThunk]
-const enhancers = [autoRehydrate()]
+const enhancers = []
 const store = createStore(rootReducer, initialState, composeWithDevTools(applyMiddleware(...middleware), ...enhancers))
 
 export const history = syncHistoryWithStore(browserHistory, store)
 
 export default function configureStore () {
-  persistStore(store)
+  // persistStore(store)
 
   return store
 }

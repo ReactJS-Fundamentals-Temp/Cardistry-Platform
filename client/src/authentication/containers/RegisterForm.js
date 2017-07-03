@@ -19,7 +19,6 @@ class RegisterForm extends Component {
     }
 
     handleFormSubmit({email, username, password, confirmPassword}) {
-        console.log('Submit')
         this.props.registerUser({ email, username, password, confirmPassword });
     }
 

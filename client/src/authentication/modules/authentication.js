@@ -13,10 +13,7 @@ export function registerUser ({email, username, password, confirmPassword}) {
   return dispatch => {
     axios.post(`${BASE_URL}/${API_VERSION}/users/register`, { email, username, password, confirmPassword })
             .then(response => {
-              console.log(response)
-              loginUser({email, password})
-              localStorage.setItem('token', response.data.token)
-              browserHistory.push('/')
+              browserHistory.push('/login')
             })
             .catch(response => {
               console.log(response, 'err')
