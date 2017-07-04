@@ -15,14 +15,14 @@ class FlourishesPage extends Component {
   render () {
     return (
       <div>
-        <FlourishList flourishes={this.props.flourishes.all} />
+        <FlourishList flourishes={this.props.flourishes} />
       </div>
     )
   }
 }
 
 function mapStateToProps (state) {
-  return { flourishes: state.flourishes }
+  return { flourishes: state.flourishes.all }
 }
 
 function mapDispatchToProps (dispatch) {

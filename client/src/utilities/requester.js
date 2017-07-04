@@ -12,6 +12,7 @@ function post (url, data, useSession) {
 }
 
 function _makeRequest (method, url, data, headers) {
+
   return axios({
     method: method,
     url: url,

@@ -1,4 +1,5 @@
 const Flourish = require('./Flourish')
+const User = require('../users/User')
 
 function index (req, res) {
   Flourish
@@ -27,7 +28,24 @@ function create (req, res) {
   res.json({success: true, message: 'Flourish created successfully'})
 }
 
+function getUserFlourishes (req, res) {
+  let username = req.params.username
+
+  User
+    .findOne({username})
+    .then(user => {
+      Flourish
+        .find({_creator: user._id})
+        .sort({'createdAt': -1})
+        .then(flourishes => {
+          console.log(flourishes, 'express flourishes')
+          res.json({ success: true, message: '', flourishes: flourishes })
+        })
+    })
+}
+
 module.exports = {
   index,
-  create
+  create,
+  getUserFlourishes
 }

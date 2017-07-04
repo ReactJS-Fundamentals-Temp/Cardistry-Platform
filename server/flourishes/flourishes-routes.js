@@ -8,6 +8,11 @@ router.get('', (req, res) => {
   flourishesController.index(req, res)
 })
 
+router.get('/:username', (req, res) => {
+  console.log('FLOURISHES')
+  flourishesController.getUserFlourishes(req, res)
+})
+
 router.post('', auth.requireAuth, (req, res) => {
   flourishesController.create(req, res)
 })
