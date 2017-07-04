@@ -85,6 +85,7 @@ module.exports = (config, app) => {
   app.use(passport.session())
   app.use((req, res, next) => {
     if (req.user) {
+      console.log(req.user, 'user')
       res.locals.currentUser = req.user
     }
 

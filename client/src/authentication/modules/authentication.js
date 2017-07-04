@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { browserHistory } from 'react-router'
+
 import { BASE_URL, API_VERSION } from '../../utilities/api'
 
 // Actions

@@ -9,7 +9,7 @@ export default class Flourish extends Component {
     return (
       <div>
         <Jumbotron>
-          <Image src={require(`../../../assets/images/flourishes/${flourish.title}/${flourish.thumbnail}`)} thumbnail />
+          {/*<Image src={require(`../../../assets/images/flourishes/${flourish.title}/${flourish.thumbnail}`)} thumbnail />*/}
           <h1>{flourish.title}</h1>
           <p>{flourish.description}</p>
         </Jumbotron>

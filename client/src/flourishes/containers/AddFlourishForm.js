@@ -1,10 +1,12 @@
 import React, { Component, PropTypes } from 'react'
+import Dropzone from 'react-dropzone'
+import { Form, FormGroup, FormControl, Col, ControlLabel, Button } from 'react-bootstrap'
+
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
-import { Form, FormGroup, FormControl, Col, ControlLabel, Button } from 'react-bootstrap'
 
-import { loginUser } from '../modules/authentication';
+import { createFlourish } from '../modules/flourishes';
 
 
 class AddFlourishForm extends Component {
@@ -12,14 +14,18 @@ class AddFlourishForm extends Component {
         super(props);
 
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.onDrop = this.onDrop.bind(this);
     }
 
     static contextTypes = {
         router: PropTypes.object
     }
 
-    handleFormSubmit({title, description}) {
-        this.props.loginUser({ email, username, password, confirmPassword });
+     onDrop(acceptedFiles, rejectedFiles) {
+    }
+
+    handleFormSubmit({title, description, video, thumbnail, images}) {
+        this.props.createFlourish({ title, description, video, thumbnail, images });
     }
 
     renderAlert() {
@@ -34,32 +40,60 @@ class AddFlourishForm extends Component {
 
 
     render() {
-        const {fields: {email, username, password, confirmPassword}, handleSubmit} = this.props;
+        const {fields: {title, description, video, thumbnail, images}, handleSubmit} = this.props;
 
         return (
         <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
             <FormGroup controlId="formHorizontalEmail">
             <Col componentClass={ControlLabel} sm={2}>
-                Email
+                Title
             </Col>
             <Col sm={10}>
-                <FormControl type="email" placeholder="Email" {...email} />
+                <FormControl type="text" placeholder="Title" {...title} />
             </Col>
             </FormGroup>
 
             <FormGroup controlId="formHorizontalPassword">
             <Col componentClass={ControlLabel} sm={2}>
-                Password
+                Description
             </Col>
             <Col sm={10}>
-                <FormControl type="password" placeholder="Password" {...password} />
+                <FormControl type="text" placeholder="Description" {...description} />
+            </Col>
+            </FormGroup>
+
+
+            <FormGroup controlId="formHorizontalPassword">
+            <Col componentClass={ControlLabel} sm={2}>
+                Video
+            </Col>
+            <Col sm={10}>
+                <FormControl type="file" onDrop={this.onDrop()} placeholder="Video" {...video} value={undefined} />
+            </Col>
+            </FormGroup>
+
+            <FormGroup controlId="formHorizontalPassword">
+            <Col componentClass={ControlLabel} sm={2}>
+                Thumbnail
+            </Col>
+            <Col sm={10}>
+                <FormControl type="file" placeholder="Thumbnail" {...thumbnail} />
+            </Col>
+            </FormGroup>
+
+            <FormGroup controlId="formHorizontalPassword">
+            <Col componentClass={ControlLabel} sm={2}>
+                Images
+            </Col>
+            <Col sm={10}>
+                <FormControl type="file" placeholder="Images" {...images} />
             </Col>
             </FormGroup>
 
             <FormGroup>
             <Col smOffset={2} sm={10}>
                 <Button type="submit">
-                Login
+                    Upload Flourish
                 </Button>
             </Col>
             </FormGroup>
@@ -72,29 +106,31 @@ class AddFlourishForm extends Component {
 function validate(values) {
     const errors = {};
 
-    if (!values.email) {
-        errors.email = 'Email is required';
+    if (!values.title) {
+        errors.title = 'Email is required';
     }
 
-    if (!values.password) {
+    if (!values.description) {
         errors.password = 'Password is required';
     }
+
+    //TODO VALIDATION
 
     return errors;
 }
 
 function mapStateToProps(state) {
     return {
-        errorMessage: state.authentication.error
+        errorMessage: state.flourishes.error
     }
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ loginUser }, dispatch);
+    return bindActionCreators({ createFlourish }, dispatch);
 }
 
 export default reduxForm({
-    form: 'LoginForm',
-    fields: ['email', 'password'],
+    form: 'CreateFlourishForm',
+    fields: ['title', 'description', 'video', 'thumbnail', 'images'],
     validate
-}, mapStateToProps, mapDispatchToProps)(LoginForm)
+}, mapStateToProps, mapDispatchToProps)(AddFlourishForm)

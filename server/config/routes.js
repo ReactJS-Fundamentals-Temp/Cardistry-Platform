@@ -30,7 +30,7 @@ module.exports = (app, env) => {
     app.use(middleware)
     app.use(webpackHotMiddleware(compiler))
     app.get('*', function response (req, res) {
-      console.log(req.url)
+      console.log('BASE')
       req.url = '/'
       app.handle(req, res)
 
