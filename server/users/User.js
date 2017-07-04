@@ -5,7 +5,7 @@ let userSchema = mongoose.Schema({
   username: {type: String, required: true, unique: true},
   password: { type: String },
   roles: [String]
-})
+}, { timestamps: true })
 
 userSchema.methods.encryptPassword = (password) => {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(5), null)

@@ -4,6 +4,8 @@ import { browserHistory } from 'react-router'
 import { BASE_URL, API_VERSION } from '../../utilities/api'
 import requester from '../../utilities/requester'
 
+const SERVICE_URL = `${BASE_URL}/${API_VERSION}/flourishes`
+
 // Actions
 const FETCH_FLOURISHES = 'FETCH_FLOURISHES'
 const CREATE_FLOURISH = 'CREATE_FLOURISH'
@@ -12,7 +14,7 @@ const FLOURISH_ERROR = 'FLOURISH_ERROR'
 // Action Creators
 export function fetchFlourishes () {
   return dispatch => {
-    axios.get(`${BASE_URL}/${API_VERSION}/flourishes`)
+    requester.get(SERVICE_URL)
             .then(response => {
               console.log(response.data.flourishes, 'res')
               dispatch({type: FETCH_FLOURISHES, payload: { flourishes: response.data.flourishes }})
@@ -26,7 +28,7 @@ export function fetchFlourishes () {
 
 export function createFlourish ({title, description, video, thumbnail, images}) {
   return dispatch => {
-    const url = `${BASE_URL}/${API_VERSION}/flourishes`
+    const url = SERVICE_URL
     const data = {title, description, video, thumbnail, images}
 
     requester.post(url, data, true)

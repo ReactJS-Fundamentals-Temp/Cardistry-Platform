@@ -11,6 +11,6 @@ const flourishSchema = mongoose.Schema({
   video: {type: String},
   thumbnail: String,
   images: [imageSchema]
-})
+}, { timestamps: true })
 
 module.exports = mongoose.model('Flourish', flourishSchema)

@@ -1,10 +1,14 @@
 import axios from 'axios'
 import { BASE_URL, API_VERSION } from './api'
 
-let instance = null
+function get (url, useSession) {
+  let requestHeaders = _getHeaders(false, useSession)
+  return _makeRequest('GET', url, requestHeaders)
+}
 
-function post (params) {
-
+function post (url, data, useSession) {
+  let requestHeaders = _getHeaders(data, useSession)
+  return _makeRequest('POST', url, data, requestHeaders)
 }
 
 function _makeRequest (method, url, data, headers) {
@@ -33,9 +37,6 @@ function _getHeaders (isJSON, useSession) {
 }
 
 export default {
-
-  post: (url, data, useSession) => {
-    let requestHeaders = _getHeaders(data, useSession)
-    return _makeRequest('POST', url, data, requestHeaders)
-  }
+  get,
+  post
 }

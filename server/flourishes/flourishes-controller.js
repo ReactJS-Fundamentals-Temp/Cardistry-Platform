@@ -3,6 +3,7 @@ const Flourish = require('./Flourish')
 function index (req, res) {
   Flourish
     .find({})
+    .sort({'createdAt': -1})
     .then(flourishes => {
       console.log(flourishes, 'express flourishes')
       res.json({ success: true, message: '', flourishes: flourishes })

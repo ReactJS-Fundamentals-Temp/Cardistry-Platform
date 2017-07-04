@@ -2,6 +2,9 @@ import axios from 'axios'
 import { browserHistory } from 'react-router'
 
 import { BASE_URL, API_VERSION } from '../../utilities/api'
+import requester from '../../utilities/requester'
+
+const SERVICE_URL = `${BASE_URL}/${API_VERSION}/users`
 
 // Actions
 // const REGISTER_USER = 'REGISTER_USER'
@@ -12,7 +15,7 @@ const AUTH_ERROR_USER = 'AUTH_ERROR_USER'
 // Action Creators
 export function registerUser ({email, username, password, confirmPassword}) {
   return dispatch => {
-    axios.post(`${BASE_URL}/${API_VERSION}/users/register`, { email, username, password, confirmPassword })
+    requester.post(`${SERVICE_URL}/register`, { email, username, password, confirmPassword })
             .then(response => {
               browserHistory.push('/login')
             })
@@ -25,7 +28,7 @@ export function registerUser ({email, username, password, confirmPassword}) {
 
 export function loginUser ({email, password}) {
   return dispatch => {
-    axios.post(`${BASE_URL}/${API_VERSION}/users/signin`, { email, password })
+    requester.post(`${SERVICE_URL}/signin`, { email, password })
             .then(response => {
               dispatch({type: LOGIN_USER, payload: { user: response.data.user }})
               sessionStorage.setItem('token', response.data.token)
