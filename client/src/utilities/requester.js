@@ -1,51 +1,41 @@
 import axios from 'axios'
-import { BASE_URL, API_VERSION } from '../../utilities/api'
+import { BASE_URL, API_VERSION } from './api'
 
 let instance = null
 
-export default class Requester {
-  constructor () {
-    if (!instance) {
-      instance = this
-    }
+function post (params) {
 
-    return instance
+}
+
+function _makeRequest (method, url, data, headers) {
+  return axios({
+    method: method,
+    url: url,
+    data: data,
+    headers: headers
+  })
+}
+
+function _getHeaders (isJSON, useSession) {
+  let headers = {}
+
+  if (isJSON) {
+    headers['Content-Type'] = 'application/json'
   }
 
-  get (url, useSession) {
+  if (useSession) {
+    const token = sessionStorage.getItem('token')
 
+    headers['Authorization'] = `JWT ${token}`
   }
 
-  post (url, data, useSession) {
-    return axios.post(`${BASE_URL}/${API_VERSION}/${url}`, data)
-  }
+  return headers
+}
 
-  put (url, data, useSession) {
-  }
+export default {
 
-  remove (url, data, useSession) {
-
-  }
-
-  _getHeaders (isJSON, useSession) {
-    return this.getAuthorizationHeaders(isJSON, useSession)
-  }
-
-  getAuthorizationHeaders (isJSON, useSession) {
-    let headers = {}
-
-    if (isJSON) {
-      headers['Content-Type'] = 'application/json'
-      axios.defaults.headers.common['Authorization'] = store.getState().session.token
-    }
-
-    if (useSession) {
-      const token = sessionStorage.getItem('token')
-
-      headers['Authorization'] = 'Authorization ' + token
-      axios.defaults.headers.common['Authorization'] = 'JWT ' + token
-    }
-
-    return headers
+  post: (url, data, useSession) => {
+    let requestHeaders = _getHeaders(data, useSession)
+    return _makeRequest('POST', url, data, requestHeaders)
   }
 }

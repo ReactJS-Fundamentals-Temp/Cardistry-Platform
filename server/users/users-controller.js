@@ -5,8 +5,6 @@ const config = require('../config/config')
 function register (req, res) {
   let newUserData = req.body
 
-  console.log(newUserData, 'newUserData')
-
   if (!newUserData.username || !newUserData.email || !newUserData.password || !newUserData.confirmPassword) {
     let errors = []
 
@@ -38,67 +36,18 @@ function register (req, res) {
     user.password = user.encryptPassword(newUserData.password)
     user.save((err) => {
       if (err) {
-        console.log(err.message, 'errmsg')
         console.log(err, 'err')
 
         return res.status(422).json({error: err.message})
       }
-
-      console.log(tokenForUser(user))
 
       res.json({ token: tokenForUser(user) })
     })
   }
 }
 
-function login (req, res) {
-  let possibleUser = req.body
-
-  if (!possibleUser.username || !possibleUser.password) {
-    let errors = []
-
-    if (!possibleUser.username) {
-      errors.push({ message: 'The username is required.' })
-    }
-
-    if (!possibleUser.password) {
-      errors.push({ message: 'The password is required.' })
-    }
-
-    req.session.errors = errors
-
-    return res.redirect('/users/login')
-  }
-
-  User.findOne({ username: possibleUser.username }, (err, user) => {
-    if (err) {
-      console.log(err)
-    }
-
-    if (user) {
-      if (user.comparePassword(possibleUser.password, user.password)) {
-        req.logIn(user, (err, user) => {
-          if (err) {
-            console.log(err)
-          }
-
-          res.redirect('/')
-        })
-      } else {
-        req.session.errors = [{ message: 'Username or password is incorrect.' }]
-
-        res.redirect('/users/login')
-      }
-    } else {
-      req.session.errors = [{ message: 'Username or password is incorrect.' }]
-
-      res.redirect('/users/login')
-    }
-  })
-}
-
 function signIn (req, res) {
-  console.log(req.user)
+  console.log(req.user, 'USER')
   res.json({ token: tokenForUser(req.user), user: req.user })
 }
 
@@ -117,7 +66,6 @@ function tokenForUser (user) {
 
 module.exports = {
   register,
-  login,
   logout,
   signIn
 }

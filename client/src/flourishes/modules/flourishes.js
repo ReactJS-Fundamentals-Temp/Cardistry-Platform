@@ -2,6 +2,7 @@ import axios from 'axios'
 import { browserHistory } from 'react-router'
 
 import { BASE_URL, API_VERSION } from '../../utilities/api'
+import requester from '../../utilities/requester'
 
 // Actions
 const FETCH_FLOURISHES = 'FETCH_FLOURISHES'
@@ -25,16 +26,18 @@ export function fetchFlourishes () {
 
 export function createFlourish ({title, description, video, thumbnail, images}) {
   return dispatch => {
-    axios.post(`${BASE_URL}/${API_VERSION}/flourishes`, { title, description, video, thumbnail, images })
-            .then(response => {
-              console.log(response.data, 'res')
-              dispatch({type: CREATE_FLOURISH})
-              browserHistory.push('/flourishes')
-            })
-            .catch(response => {
-              console.log(response, 'err')
-              dispatch(flourishError('There was a problem creating the flourish.'))
-            })
+    const url = `${BASE_URL}/${API_VERSION}/flourishes`
+    const data = {title, description, video, thumbnail, images}
+
+    requester.post(url, data, true)
+      .then(response => {
+        console.log(response.data, 'res')
+        dispatch({type: CREATE_FLOURISH})
+        browserHistory.push('/flourishes')
+      }).catch(response => {
+        console.log(response, 'err')
+        dispatch(flourishError('There was a problem creating the flourish.'))
+      })
   }
 }
 

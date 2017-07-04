@@ -10,10 +10,11 @@ function index (req, res) {
 }
 
 function create (req, res) {
+  let currentUser = req.user
   let newFlourishData = req.body
-  console.log(newFlourishData)
 
   let newFlourish = new Flourish()
+  newFlourish._creator = currentUser._id
   newFlourish.title = newFlourishData.title
   newFlourish.description = newFlourishData.description
   newFlourish.save()

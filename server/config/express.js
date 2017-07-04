@@ -83,14 +83,6 @@ module.exports = (config, app) => {
   app.use(session({ secret: 'nnk', saveUninitialized: false, resave: false }))
   app.use(passport.initialize())
   app.use(passport.session())
-  app.use((req, res, next) => {
-    if (req.user) {
-      console.log(req.user, 'user')
-      res.locals.currentUser = req.user
-    }
-
-    next()
-  })
 
   app.use('/client', express.static(config.rootPath + '/client/'))
   app.use('/node_modules', express.static(config.rootPath + '/node_modules'))

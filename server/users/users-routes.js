@@ -8,10 +8,6 @@ router.post('/register', auth.isGuest, (req, res) => {
   usersController.register(req, res)
 })
 
-router.post('/login', auth.isGuest, (req, res) => {
-  usersController.login(req, res)
-})
-
 router.post('/logout', (req, res) => {
   usersController.logout(req, res)
 })

@@ -8,8 +8,7 @@ router.get('', (req, res) => {
   flourishesController.index(req, res)
 })
 
-router.post('', (req, res) => {
-  console.log('ADD FLOURISH')
+router.post('', auth.requireAuth, (req, res) => {
   flourishesController.create(req, res)
 })
 
