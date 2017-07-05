@@ -16,6 +16,9 @@ import LoginPage from './authentication/components/LoginPage'
 // Users
 import ProfilePage from './users/containers/ProfilePage'
 
+// Events
+import EventsPage from './events/containers/EventsPage'
+
 // Flourishes
 import FlourishesPage from './flourishes/containers/FlourishesPage'
 import AddFlourishPage from './flourishes/components/AddFlourishPage'
@@ -46,6 +49,9 @@ export default class Routes extends Component {
           {/* Profile */}
           <Route path='/users/:username' component={ProfilePage} />
           <Route path='/users/:username/portfolio' component={PortfolioPage} />
+
+          {/* Events */}
+          <Route path='/events' component={EventsPage} />
 
           {/* Flourishes */}
           <Route path='/flourishes' component={FlourishesPage} />

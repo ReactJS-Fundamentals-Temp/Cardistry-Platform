@@ -4,6 +4,7 @@ import { routerReducer } from 'react-router-redux'
 
 import authenticationReducer from './authentication/modules/authentication'
 import flourishesReducer from './flourishes/modules/flourishes'
+import eventsReducer from './events/modules/events'
 import usersReducer from './users/modules/users'
 
 const configureRootReducer = () => {
@@ -12,6 +13,7 @@ const configureRootReducer = () => {
     routing: routerReducer,
     authentication: authenticationReducer,
     flourishes: flourishesReducer,
+    events: eventsReducer,
     users: usersReducer
   }
 
