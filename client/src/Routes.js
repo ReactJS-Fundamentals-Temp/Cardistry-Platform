@@ -12,7 +12,9 @@ import ContactsPage from './pages/ContactsPage'
 // Authentication
 import RegisterPage from './authentication/components/RegisterPage'
 import LoginPage from './authentication/components/LoginPage'
-import ProfilePage from './authentication/components/ProfilePage'
+
+// Users
+import ProfilePage from './users/containers/ProfilePage'
 
 // Flourishes
 import FlourishesPage from './flourishes/containers/FlourishesPage'

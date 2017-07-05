@@ -4,13 +4,15 @@ import { routerReducer } from 'react-router-redux'
 
 import authenticationReducer from './authentication/modules/authentication'
 import flourishesReducer from './flourishes/modules/flourishes'
+import usersReducer from './users/modules/users'
 
 const configureRootReducer = () => {
   const reducers = {
     form: formReducer,
     routing: routerReducer,
     authentication: authenticationReducer,
-    flourishes: flourishesReducer
+    flourishes: flourishesReducer,
+    users: usersReducer
   }
 
   const rootReducer = combineReducers(reducers)

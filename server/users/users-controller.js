@@ -64,8 +64,19 @@ function tokenForUser (user) {
   return jwt.encode(payload, config.jwtSecret)
 }
 
+function show (req, res) {
+  const username = req.params.username
+
+  User
+    .findOne({username})
+    .then(user => {
+      res.json({success: true, message: 'Fetched User data successfully', user})
+    })
+}
+
 module.exports = {
   register,
   logout,
-  signIn
+  signIn,
+  show
 }

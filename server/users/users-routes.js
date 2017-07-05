@@ -12,6 +12,10 @@ router.post('/logout', (req, res) => {
   usersController.logout(req, res)
 })
 
+router.get('/:username', (req, res) => {
+  usersController.show(req, res)
+})
+
 // Test
 router.get('/auth', auth.requireAuth, (req, res) => {
   res.json({hi: 'hi'})
