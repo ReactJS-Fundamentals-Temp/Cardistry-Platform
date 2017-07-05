@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import Dropzone from 'react-dropzone'
-import { Form, FormGroup, FormControl, Col, ControlLabel, Button } from 'react-bootstrap'
+import { Form, FormGroup, FormControl, Col, ControlLabel, Button, Panel } from 'react-bootstrap'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -44,42 +44,44 @@ class CreateEventForm extends Component {
         const {fields: {title, description, location}, handleSubmit} = this.props;
 
         return (
-        <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
-            <FormGroup controlId="formHorizontalEmail">
-            <Col componentClass={ControlLabel} sm={2}>
-                Title
-            </Col>
-            <Col sm={10}>
-                <FormControl type="text" placeholder="Title" {...title} />
-            </Col>
-            </FormGroup>
+            <Panel>
+                <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
+                    <FormGroup controlId="formHorizontalEmail">
+                    <Col componentClass={ControlLabel} sm={2}>
+                        Title
+                    </Col>
+                    <Col sm={10}>
+                        <FormControl type="text" placeholder="Title" {...title} />
+                    </Col>
+                    </FormGroup>
 
-            <FormGroup controlId="formHorizontalPassword">
-            <Col componentClass={ControlLabel} sm={2}>
-                Description
-            </Col>
-            <Col sm={10}>
-                <FormControl type="text" placeholder="Description" {...description} />
-            </Col>
-            </FormGroup>
+                    <FormGroup controlId="formHorizontalPassword">
+                    <Col componentClass={ControlLabel} sm={2}>
+                        Description
+                    </Col>
+                    <Col sm={10}>
+                        <FormControl type="text" placeholder="Description" {...description} />
+                    </Col>
+                    </FormGroup>
 
-            <FormGroup controlId="formHorizontalPassword">
-            <Col componentClass={ControlLabel} sm={2}>
-                Location
-            </Col>
-            <Col sm={10}>
-                <FormControl type="text" placeholder="Location" {...location} />
-            </Col>
-            </FormGroup>
+                    <FormGroup controlId="formHorizontalPassword">
+                    <Col componentClass={ControlLabel} sm={2}>
+                        Location
+                    </Col>
+                    <Col sm={10}>
+                        <FormControl type="text" placeholder="Location" {...location} />
+                    </Col>
+                    </FormGroup>
 
-            <FormGroup>
-            <Col smOffset={2} sm={10}>
-                <Button type="submit">
-                    Create Event
-                </Button>
-            </Col>
-            </FormGroup>
-        </Form>
+                    <FormGroup>
+                    <Col smOffset={2} sm={10}>
+                        <Button type="submit">
+                            Create Event
+                        </Button>
+                    </Col>
+                    </FormGroup>
+                </Form>
+            </Panel>
         )
     }
 }

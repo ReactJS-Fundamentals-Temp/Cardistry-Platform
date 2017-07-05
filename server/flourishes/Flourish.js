@@ -10,7 +10,8 @@ const flourishSchema = mongoose.Schema({
   description: {type: String, required: true},
   video: {type: String},
   thumbnail: String,
-  images: [imageSchema]
+  images: [imageSchema],
+  timesPracticed: Number
 }, { timestamps: true })
 
 module.exports = mongoose.model('Flourish', flourishSchema)

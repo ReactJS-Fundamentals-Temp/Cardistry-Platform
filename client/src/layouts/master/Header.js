@@ -30,7 +30,7 @@ class Header extends Component {
           </MenuItem>
           <MenuItem divider />
           <MenuItem eventKey={3.1}>
-            <Link to={`performances/add`}>Upload Performance</Link>
+            <Link to={`practices/practice-lists/create`}>Create Practice List</Link>
           </MenuItem>
           <MenuItem divider />
           <MenuItem eventKey={3.1}>

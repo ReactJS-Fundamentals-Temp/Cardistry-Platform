@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Jumbotron, Image } from 'react-bootstrap'
 
-export default class Flourish extends Component {
+export default class FlourishJumbotron extends Component {
   render () {
     const flourish = this.props.flourish
     console.log(flourish)

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ListGroup, ListGroupItem } from 'react-bootstrap'
 
-import Flourish from './Flourish'
+import FlourishJumbotron from './FlourishJumbotron'
 
 export default class FlourishesList extends Component {
   linkClicked () {
@@ -12,7 +12,7 @@ export default class FlourishesList extends Component {
     return this.props.flourishes.map(flourish => {
       return (
         <ListGroupItem onClick={this.linkClicked} key={flourish._id}>
-          <Flourish flourish={flourish} />
+          <FlourishJumbotron flourish={flourish} />
         </ListGroupItem>
       )
     })
