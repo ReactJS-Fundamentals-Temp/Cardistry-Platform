@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-
 import { Form, FormGroup, FormControl, Col, ControlLabel, Button, Checkbox, Panel } from 'react-bootstrap'
+
+import { searchFlourishes } from '../../flourishes/modules/flourishes'
 
 class SearchFlourishBar extends Component {
   constructor (props) {
@@ -21,7 +22,8 @@ class SearchFlourishBar extends Component {
   onSubmit (e) {
     e.preventDefault()
 
-    if (this.state.searchInput.trim() != '') {
+    if (this.state.searchInput.trim() !== '') {
+      this.props.searchFlourishes(this.state.searchInput)
       this.setState({ searchInput: '' })
     }
   }
@@ -48,7 +50,7 @@ class SearchFlourishBar extends Component {
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ }, dispatch)
+  return bindActionCreators({ searchFlourishes }, dispatch)
 }
 
 export default connect(null, mapDispatchToProps)(SearchFlourishBar)

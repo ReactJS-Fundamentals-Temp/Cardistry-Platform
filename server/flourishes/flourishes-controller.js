@@ -44,8 +44,21 @@ function getUserFlourishes (req, res) {
     })
 }
 
+function searchFlourishes (req, res) {
+  const title = req.params.title
+
+  Flourish
+    .find({title})
+    .sort({'createdAt': -1})
+    .then(flourishes => {
+      console.log(flourishes)
+      res.json({ success: true, message: 'Flourishes found successfully', flourishes: flourishes })
+    })
+}
+
 module.exports = {
   index,
   create,
-  getUserFlourishes
+  getUserFlourishes,
+  searchFlourishes
 }

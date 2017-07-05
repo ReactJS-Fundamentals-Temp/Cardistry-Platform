@@ -24,7 +24,6 @@ class CreatePracticeListForm extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchFlourishes()
     }
 
     toggleCheckbox (e) {
@@ -38,12 +37,9 @@ class CreatePracticeListForm extends Component {
     renderFlourishes() {
         return this.props.flourishes.map(flourish => {
             return (
-                <div>
-                    <Checkbox key={flourish._id} onChange={this.toggleCheckbox}>
-                    {flourish.title}
-                    </Checkbox>
-                    {/*<input type="checkbox" onChange={this.toggleCheckbox} />*/}
-                </div>
+                <Checkbox key={flourish._id} onChange={this.toggleCheckbox}>
+                {flourish.title}
+                </Checkbox>
             )
         })
     }
@@ -93,13 +89,13 @@ function validate(values) {
 
 function mapStateToProps(state) {
     return {
-        flourishes: state.flourishes.all,
+        flourishes: state.flourishes.searchResults,
         errorMessage: state.events.error
     }
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchFlourishes, createPracticeList }, dispatch);
+    return bindActionCreators({ createPracticeList }, dispatch);
 }
 
 export default reduxForm({

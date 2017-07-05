@@ -13,6 +13,10 @@ router.get('/:username', (req, res) => {
   flourishesController.getUserFlourishes(req, res)
 })
 
+router.get('/search/:title', (req, res) => {
+  flourishesController.searchFlourishes(req, res)
+})
+
 router.post('', auth.requireAuth, (req, res) => {
   flourishesController.create(req, res)
 })

@@ -9,6 +9,7 @@ const SERVICE_URL = `${BASE_URL}/${API_VERSION}/flourishes`
 const FETCH_FLOURISHES = 'FETCH_FLOURISHES'
 const CREATE_FLOURISH = 'CREATE_FLOURISH'
 const FETCH_USER_FLOURISHES = 'FETCH_USER_FLOURISHES'
+const SEARCH_FLOURISHES = 'SEARCH_FLOURISHES'
 const FLOURISH_ERROR = 'FLOURISH_ERROR'
 
 // Action Creators
@@ -48,7 +49,7 @@ export function fetchUserFlourishes (username) {
   return dispatch => {
     const url = SERVICE_URL + `/${username}`
 
-    requester.get(url)
+    requester.get(url, false)
       .then(response => {
         console.log(response.data.flourishes, 'res')
         dispatch({type: FETCH_USER_FLOURISHES, payload: { flourishes: response.data.flourishes }})
@@ -56,6 +57,22 @@ export function fetchUserFlourishes (username) {
       .catch(response => {
         console.log(response, 'err')
         dispatch(flourishError('There was a problem fetching the flourishes.'))
+      })
+  }
+}
+
+export function searchFlourishes (title) {
+  return dispatch => {
+    const url = SERVICE_URL + `/search/${title}`
+
+    requester.get(url, false)
+      .then(response => {
+        console.log(response.data.flourishes, 'res')
+        dispatch({type: SEARCH_FLOURISHES, payload: { flourishes: response.data.flourishes }})
+      })
+      .catch(response => {
+        console.log(response, 'err')
+        dispatch(flourishError('There was a problem searching the flourishes.'))
       })
   }
 }
@@ -70,12 +87,14 @@ export function flourishError (error) {
 }
 
 // Reducer
-export default function reducer (state = {all: [], userFlourishes: []}, action = {}) {
+export default function reducer (state = {all: [], userFlourishes: [], searchResults: []}, action = {}) {
   switch (action.type) {
     case FETCH_FLOURISHES:
       return Object.assign({}, state, { all: action.payload.flourishes })
     case FETCH_USER_FLOURISHES:
       return Object.assign({}, state, { userFlourishes: action.payload.flourishes })
+    case SEARCH_FLOURISHES:
+      return Object.assign({}, state, { searchResults: action.payload.flourishes })
     case FLOURISH_ERROR:
       return Object.assign({}, state, { error: action.payload })
 
