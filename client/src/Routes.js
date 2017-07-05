@@ -18,6 +18,7 @@ import ProfilePage from './users/containers/ProfilePage'
 
 // Events
 import EventsPage from './events/containers/EventsPage'
+import CreateEventPage from './events/components/CreateEventPage'
 
 // Flourishes
 import FlourishesPage from './flourishes/containers/FlourishesPage'
@@ -52,6 +53,7 @@ export default class Routes extends Component {
 
           {/* Events */}
           <Route path='/events' component={EventsPage} />
+          <Route path='/events/create' component={CreateEventPage} />
 
           {/* Flourishes */}
           <Route path='/flourishes' component={FlourishesPage} />

@@ -6,10 +6,10 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 
-import { createFlourish } from '../modules/flourishes';
+import { createEvent } from '../modules/events';
 
 
-class AddFlourishForm extends Component {
+class CreateEventForm extends Component {
     constructor(props) {
         super(props);
 
@@ -24,8 +24,9 @@ class AddFlourishForm extends Component {
      onDrop(acceptedFiles, rejectedFiles) {
     }
 
-    handleFormSubmit({title, description, video, thumbnail, images}) {
-        this.props.createFlourish({ title, description, video, thumbnail, images });
+    handleFormSubmit({title, description, location}) {
+        console.log('LIIIIIIIT')
+        this.props.createEvent({title, description, location})
     }
 
     renderAlert() {
@@ -40,7 +41,7 @@ class AddFlourishForm extends Component {
 
 
     render() {
-        const {fields: {title, description, video, thumbnail, images}, handleSubmit} = this.props;
+        const {fields: {title, description, location}, handleSubmit} = this.props;
 
         return (
         <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
@@ -62,38 +63,19 @@ class AddFlourishForm extends Component {
             </Col>
             </FormGroup>
 
-
             <FormGroup controlId="formHorizontalPassword">
             <Col componentClass={ControlLabel} sm={2}>
-                Video
+                Location
             </Col>
             <Col sm={10}>
-                <FormControl type="file" onDrop={this.onDrop()} placeholder="Video" {...video} value={undefined} />
-            </Col>
-            </FormGroup>
-
-            <FormGroup controlId="formHorizontalPassword">
-            <Col componentClass={ControlLabel} sm={2}>
-                Thumbnail
-            </Col>
-            <Col sm={10}>
-                <FormControl type="file" placeholder="Thumbnail" {...thumbnail} />
-            </Col>
-            </FormGroup>
-
-            <FormGroup controlId="formHorizontalPassword">
-            <Col componentClass={ControlLabel} sm={2}>
-                Images
-            </Col>
-            <Col sm={10}>
-                <FormControl type="file" placeholder="Images" {...images} />
+                <FormControl type="text" placeholder="Location" {...location} />
             </Col>
             </FormGroup>
 
             <FormGroup>
             <Col smOffset={2} sm={10}>
                 <Button type="submit">
-                    Upload Flourish
+                    Create Event
                 </Button>
             </Col>
             </FormGroup>
@@ -104,7 +86,7 @@ class AddFlourishForm extends Component {
 
 
 function validate(values) {
-    const errors = {};
+    const errors = {}
 
     if (!values.title) {
         errors.title = 'Title is required';
@@ -114,23 +96,26 @@ function validate(values) {
         errors.description = 'Description is required';
     }
 
-    //TODO VALIDATION
+    if (!values.location) {
+        errors.location = 'Location is required';
+    }
 
-    return errors;
+    //TODO VALIDATION
+    return errors
 }
 
 function mapStateToProps(state) {
     return {
-        errorMessage: state.flourishes.error
+        errorMessage: state.events.error
     }
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ createFlourish }, dispatch);
+    return bindActionCreators({ createEvent }, dispatch);
 }
 
 export default reduxForm({
-    form: 'CreateFlourishForm',
-    fields: ['title', 'description', 'video', 'thumbnail', 'images'],
+    form: 'CreateEventForm',
+    fields: ['title', 'description', 'location'],
     validate
-}, mapStateToProps, mapDispatchToProps)(AddFlourishForm)
+}, mapStateToProps, mapDispatchToProps)(CreateEventForm)

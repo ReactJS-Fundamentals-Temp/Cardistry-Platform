@@ -33,6 +33,10 @@ class Header extends Component {
             <Link to={`performances/add`}>Upload Performance</Link>
           </MenuItem>
           <MenuItem divider />
+          <MenuItem eventKey={3.1}>
+            <Link to={`events/create`}>Create Event</Link>
+          </MenuItem>
+          <MenuItem divider />
           <MenuItem eventKey={3.4} onClick={this.handleLogout.bind(this)}>LOGOUT</MenuItem>
         </NavDropdown>
       ]
