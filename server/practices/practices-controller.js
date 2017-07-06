@@ -1,5 +1,22 @@
 const PracticeList = require('./PracticeList')
+const Practice = require('./Practice')
 const PracticeType = require('./PracticeType')
+
+function createPractice (req, res) {
+  let currentUser = req.user
+  let newPracticeData = req.body
+
+  console.log(newPracticeData, 'NEW PRACTICE DATA')
+
+  let newPractice = new Practice()
+  newPractice._creator = currentUser._id
+  newPractice._type = newPracticeData.type
+  newPractice._practice_list = newPracticeData.practiceList
+  newPractice.required_consistency_repetitions = newPracticeData.required_consistency_repetitions
+  newPractice.save()
+
+  res.json({success: true, message: 'Practice created successfully', practice: newPractice})
+}
 
 function getCurrentUserPracticeList (req, res) {
   let currentUser = req.user
@@ -35,6 +52,7 @@ function getPracticeTypes (req, res) {
 }
 
 module.exports = {
+  createPractice,
   getCurrentUserPracticeList,
   createPracticeList,
   getPracticeTypes

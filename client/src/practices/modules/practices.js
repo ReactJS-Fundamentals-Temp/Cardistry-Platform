@@ -65,8 +65,22 @@ export function fetchPracticeTypes () {
   }
 }
 
-export function startPractice () {
+export function startPractice ({selectedPracticeType, selectedPracticeList, required_consistency_repetitions}) {
+  return dispatch => {
+    const url = SERVICE_URL
+    const data = {type: selectedPracticeType, practiceList: selectedPracticeList, required_consistency_repetitions}
 
+    requester.post(url, data, true)
+      .then(response => {
+        console.log(response.data, 'res')
+        dispatch({type: START_PRACTICE, payload: {currentPractice: response.data.practice}})
+        browserHistory.push('/practices/' + response.data.practice._id)
+      })
+      .catch(response => {
+        console.log(response, 'err')
+        dispatch(practiceError('There was a problem creating the practice.'))
+      })
+  }
 }
 
 export function practiceError (error) {
@@ -79,8 +93,10 @@ export function practiceError (error) {
 }
 
 // Reducer
-export default function reducer (state = { currentUserPracticeLists: [], practiceTypes: [] }, action) {
+export default function reducer (state = { currentUserPracticeLists: [], practiceTypes: [], currentPractice: {} }, action) {
   switch (action.type) {
+    case START_PRACTICE:
+      return Object.assign({}, state, { currentPractice: action.payload.practice })
     case FETCH_CURRENT_USER_PRACTICE_LISTS:
       return Object.assign({}, state, { currentUserPracticeLists: action.payload.practiceLists })
     case FETCH_PRACTICE_TYPES:

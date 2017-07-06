@@ -10,16 +10,54 @@ class StartPracticeForm extends Component {
   constructor (props) {
     super(props)
 
+    this.state = {
+      selectedPracticeType: null,
+      selectedPracticeList: null
+    }
+
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
+    this.selectPracticeType = this.selectPracticeType.bind(this)
+    this.selectPracticeList = this.selectPracticeList.bind(this)
   }
 
   componentDidMount () {
     this.props.fetchPracticeTypes()
     this.props.fetchCurrentUserPracticeLists()
+
+    console.log(this.props)
   }
 
-  handleFormSubmit ({title, description, location}) {
-    this.props.fetchCurrentUserPracticeLists()
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      selectedPracticeType: nextProps.practiceTypes[0]._id,
+      selectedPracticeList: nextProps.currentUserPracticeLists[0]._id
+    })
+  }
+
+  selectPracticeType (event) {
+    console.log(event.target.value)
+    const selectedPracticeType = event.target.value
+
+    this.setState({
+      selectedPracticeType
+    })
+  }
+
+  selectPracticeList (event) {
+    console.log(event.target.value)
+    const selectedPracticeList = event.target.value
+
+    this.setState({
+      selectedPracticeList
+    })
+  }
+
+  handleFormSubmit ({required_consistency_repetitions}) {
+    this.props.startPractice({
+      selectedPracticeType: this.state.selectedPracticeType,
+      selectedPracticeList: this.state.selectedPracticeList,
+      required_consistency_repetitions
+    })
   }
 
   renderAlert () {
@@ -33,7 +71,7 @@ class StartPracticeForm extends Component {
   }
 
   render () {
-    const {fields: { repetitions }, handleSubmit} = this.props
+    const {fields: { required_consistency_repetitions }, handleSubmit} = this.props
 
     return (
       <Panel>
@@ -41,24 +79,24 @@ class StartPracticeForm extends Component {
 
           <FormGroup controlId='formControlsSelect'>
             <ControlLabel>Select Practice Type</ControlLabel>
-            <FormControl componentClass='select' placeholder='select'>
+            <FormControl componentClass='select' placeholder='select' onChange={this.selectPracticeType}>
               { this.props.practiceTypes.map(practiceType => {
-                return <option value={practiceType.name}>{practiceType.name}</option>
+                return <option key={practiceType.name} value={practiceType._id}>{practiceType.name}</option>
               })}
             </FormControl>
           </FormGroup>
 
           <FormGroup controlId='formControlsSelect'>
             <ControlLabel>Select Practice List</ControlLabel>
-            <FormControl componentClass='select' placeholder='select'>
+            <FormControl componentClass='select' placeholder='select' onChange={this.selectPracticeList}>
               { this.props.currentUserPracticeLists.map(practiceList => {
-                return <option value={practiceList._id}>{practiceList.title}</option>
+                return <option key={practiceList._id} value={practiceList._id}>{practiceList.title}</option>
               })}
             </FormControl>
           </FormGroup>
 
           <FormGroup controlId='formHorizontalEmail'>
-            <FormControl type='text' placeholder='Repetitions per Flourish' {...repetitions} />
+            <FormControl type='text' placeholder='Repetitions per Flourish' {...required_consistency_repetitions} />
           </FormGroup>
 
           <FormGroup>
@@ -76,18 +114,6 @@ class StartPracticeForm extends Component {
 
 function validate (values) {
   const errors = {}
-
-  if (!values.title) {
-    errors.title = 'Title is required'
-  }
-
-  if (!values.description) {
-    errors.description = 'Description is required'
-  }
-
-  if (!values.location) {
-    errors.location = 'Location is required'
-  }
 
     // TODO VALIDATION
   return errors
@@ -107,6 +133,6 @@ function mapDispatchToProps (dispatch) {
 
 export default reduxForm({
   form: 'StartPracticeForm',
-  fields: ['repetitions'],
+  fields: ['required_consistency_repetitions'],
   validate
 }, mapStateToProps, mapDispatchToProps)(StartPracticeForm)
