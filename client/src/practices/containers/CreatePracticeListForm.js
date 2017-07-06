@@ -83,27 +83,20 @@ class CreatePracticeListForm extends Component {
 
         return (
             <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
-             <Panel>
-                <FormGroup>
+            <FormGroup>
+                <Panel>
                     {this.renderFlourishes()}
-                </FormGroup>
-            </Panel>
+                </Panel>
+            </FormGroup>
 
             <FormGroup controlId="formHorizontalTitle">
-            <Col componentClass={ControlLabel} sm={2}>
-                Title
-            </Col>
-            <Col sm={10}>
                 <FormControl type="text" placeholder="Title" {...title} />
-            </Col>
             </FormGroup>
 
             <FormGroup>
-            <Col sm={10}>
                 <Button type="submit">
                     Create PracticeList
                 </Button>
-            </Col>
             </FormGroup>
             </Form>
         )

@@ -3,7 +3,7 @@ import { BASE_URL, API_VERSION } from './api'
 
 function get (url, useSession) {
   let requestHeaders = _getHeaders(false, useSession)
-  return _makeRequest('GET', url, requestHeaders)
+  return _makeRequest('GET', url, {}, requestHeaders)
 }
 
 function post (url, data, useSession) {

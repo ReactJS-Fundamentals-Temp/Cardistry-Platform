@@ -7,7 +7,7 @@ function index (req, res) {
     .sort({'createdAt': -1})
     .then(flourishes => {
       console.log(flourishes, 'express flourishes')
-      res.json({ success: true, message: '', flourishes: flourishes })
+      res.json({ success: true, message: 'Fetched flourishes successfully.', flourishes: flourishes })
     })
 }
 

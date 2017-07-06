@@ -32,6 +32,9 @@ class Header extends Component {
           <MenuItem eventKey={3.1}>
             <Link to={`practices/practice-lists/create`}>Create Practice List</Link>
           </MenuItem>
+          <MenuItem eventKey={3.1}>
+            <Link to={`practices/practice-lists`}>View Practice Lists</Link>
+          </MenuItem>
           <MenuItem divider />
           <MenuItem eventKey={3.1}>
             <Link to={`events/create`}>Create Event</Link>

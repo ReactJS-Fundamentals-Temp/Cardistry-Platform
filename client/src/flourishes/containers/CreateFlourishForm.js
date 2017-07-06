@@ -46,7 +46,6 @@ class CreateFlourishForm extends Component {
         <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
             <FormGroup controlId="formHorizontalEmail">
             <Col componentClass={ControlLabel} sm={2}>
-                Title
             </Col>
             <Col sm={10}>
                 <FormControl type="text" placeholder="Title" {...title} />

@@ -9,11 +9,11 @@ import { LOGIN_USER } from './authentication/modules/authentication'
 
 const store = configureStore()
 
-const token = sessionStorage.getItem('token')
+// const token = sessionStorage.getItem('token')
 
-if (token) {
-  store.dispatch({type: LOGIN_USER, payload: {user: store.getState().authentication.currentUser}})
-}
+// if (token) {
+//   store.dispatch({type: LOGIN_USER, payload: {user: store.getState().authentication.currentUser}})
+// }
 
 ReactDOM.render(
   <Provider store={store}>
