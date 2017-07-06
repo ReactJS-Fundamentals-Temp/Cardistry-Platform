@@ -12,6 +12,8 @@ import ContactsPage from './pages/ContactsPage'
 // Authentication
 import RegisterPage from './authentication/components/RegisterPage'
 import LoginPage from './authentication/components/LoginPage'
+import RequireAuth from './authentication/containers/RequireAuth'
+import RequireGuest from './authentication/containers/RequireGuest'
 
 // Users
 import ProfilePage from './users/containers/ProfilePage'
@@ -22,7 +24,7 @@ import CreateEventPage from './events/components/CreateEventPage'
 
 // Flourishes
 import FlourishesPage from './flourishes/containers/FlourishesPage'
-import AddFlourishPage from './flourishes/components/AddFlourishPage'
+import CreateFlourishPage from './flourishes/components/CreateFlourishPage'
 import PortfolioPage from './flourishes/containers/PortfolioPage'
 
 // Practice
@@ -45,8 +47,8 @@ export default class Routes extends Component {
           <Route path='/contacts' component={ContactsPage} />
 
           {/* Authentication */}
-          <Route path='/register' component={RegisterPage} />
-          <Route path='/login' component={LoginPage} />
+          <Route path='/register' component={RequireGuest(RegisterPage)} />
+          <Route path='/login' component={RequireGuest(LoginPage)} />
 
           {/* Profile */}
           <Route path='/users/:username' component={ProfilePage} />
@@ -54,15 +56,15 @@ export default class Routes extends Component {
 
           {/* Events */}
           <Route path='/events' component={EventsPage} />
-          <Route path='/events/create' component={CreateEventPage} />
+          <Route path='/events/create' component={RequireAuth(CreateEventPage)} />
 
           {/* Flourishes */}
           <Route path='/flourishes' component={FlourishesPage} />
-          <Route path='/flourishes/add' component={AddFlourishPage} />
+          <Route path='/flourishes/create' component={RequireAuth(CreateFlourishPage)} />
 
           {/* Practice */}
           <Route path='/practice' component={PracticePage} />
-          <Route path='/practices/practice-lists/create' component={CreatePracticeListPage} />
+          <Route path='/practices/practice-lists/create' component={RequireAuth(CreatePracticeListPage)} />
 
           {/* Versus */}
           <Route path='/versus' component={VersusPage} />

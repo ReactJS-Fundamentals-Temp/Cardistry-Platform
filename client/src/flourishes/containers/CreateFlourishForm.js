@@ -9,7 +9,7 @@ import { reduxForm } from 'redux-form'
 import { createFlourish } from '../modules/flourishes';
 
 
-class AddFlourishForm extends Component {
+class CreateFlourishForm extends Component {
     constructor(props) {
         super(props);
 
@@ -133,4 +133,4 @@ export default reduxForm({
     form: 'CreateFlourishForm',
     fields: ['title', 'description', 'video', 'thumbnail', 'images'],
     validate
-}, mapStateToProps, mapDispatchToProps)(AddFlourishForm)
+}, mapStateToProps, mapDispatchToProps)(CreateFlourishForm)

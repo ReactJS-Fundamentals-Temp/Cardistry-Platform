@@ -23,10 +23,10 @@ class Header extends Component {
           </MenuItem>
           <MenuItem divider />
           <MenuItem eventKey={3.1}>
-            <Link to={`flourishes/add`}>Upload Flourish</Link>
+            <Link to={`flourishes/create`}>Upload Flourish</Link>
           </MenuItem>
           <MenuItem eventKey={3.1}>
-            <Link to={`performances/add`}>Upload Performance</Link>
+            <Link to={`performances/create`}>Upload Performance</Link>
           </MenuItem>
           <MenuItem divider />
           <MenuItem eventKey={3.1}>
@@ -82,7 +82,7 @@ class Header extends Component {
               <Link to='/shop'>SHOP</Link>
             </NavItem>
             <NavItem eventKey={1}>
-              <Link to='/forum'>FORUM</Link>
+              <Link to='/login'>FORUM</Link>
             </NavItem>
             <NavItem eventKey={1}>
               <Link to='/market'>MARKET</Link>

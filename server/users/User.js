@@ -4,7 +4,7 @@ let userSchema = mongoose.Schema({
   email: { type: String, unique: true },
   username: {type: String, required: true, unique: true},
   password: { type: String },
-  roles: [String]
+  roles: { type: [String], default: ['Cardist'] }
 }, { timestamps: true })
 
 userSchema.methods.encryptPassword = (password) => {
