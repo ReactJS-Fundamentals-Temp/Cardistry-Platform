@@ -1,4 +1,5 @@
 const PracticeList = require('./PracticeList')
+const PracticeType = require('./PracticeType')
 
 function getCurrentUserPracticeList (req, res) {
   let currentUser = req.user
@@ -25,7 +26,16 @@ function createPracticeList (req, res) {
   res.json({success: true, message: 'Practice List created successfully'})
 }
 
+function getPracticeTypes (req, res) {
+  PracticeType
+    .find({})
+    .then(practiceTypes => {
+      res.json({success: true, message: 'Practice Types fetched successfully', practiceTypes})
+    })
+}
+
 module.exports = {
   getCurrentUserPracticeList,
-  createPracticeList
+  createPracticeList,
+  getPracticeTypes
 }

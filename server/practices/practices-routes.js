@@ -11,4 +11,8 @@ router.post('/practice-lists', auth.requireAuth, (req, res) => {
   practicesController.createPracticeList(req, res)
 })
 
+router.get('/practice-types', (req, res) => {
+  practicesController.getPracticeTypes(req, res)
+})
+
 module.exports = router

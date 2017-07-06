@@ -37,6 +37,10 @@ class Header extends Component {
           </MenuItem>
           <MenuItem divider />
           <MenuItem eventKey={3.1}>
+            <Link to={`practices/start`}>Start Practice</Link>
+          </MenuItem>
+          <MenuItem divider />
+          <MenuItem eventKey={3.1}>
             <Link to={`events/create`}>Create Event</Link>
           </MenuItem>
           <MenuItem divider />
@@ -70,7 +74,7 @@ class Header extends Component {
               <Link to='/flourishes/'>FLOURISHES</Link>
             </NavItem>
             <NavItem eventKey={1}>
-              <Link to='/practice'>PRACTICE</Link>
+              <Link to='/practices'>PRACTICE</Link>
             </NavItem>
             <NavItem eventKey={1}>
               <Link to='/versus'>VERSUS</Link>

@@ -27,10 +27,13 @@ import FlourishesPage from './flourishes/containers/FlourishesPage'
 import CreateFlourishPage from './flourishes/components/CreateFlourishPage'
 import PortfolioPage from './flourishes/containers/PortfolioPage'
 
-// Practice
+// Practices
 import PracticePage from './practices/components/PracticePage'
-import CreatePracticeListPage from './practices/components/CreatePracticeListPage'
+import StartPracticePage from './practices/components/StartPracticePage'
+
+// Practices - Practice Lists
 import PracticeListsPage from './practices/containers/PracticeListsPage'
+import CreatePracticeListPage from './practices/components/CreatePracticeListPage'
 
 // Versus
 import VersusPage from './pages/VersusPage'
@@ -64,9 +67,10 @@ export default class Routes extends Component {
           <Route path='/flourishes/create' component={RequireAuth(CreateFlourishPage)} />
 
           {/* Practice */}
-          <Route path='/practice' component={PracticePage} />
-          <Route path='/practices/practice-lists/create' component={RequireAuth(CreatePracticeListPage)} />
+          <Route path='/practices' component={PracticePage} />
+          <Route path='/practices/start' component={RequireAuth(StartPracticePage)} />
           <Route path='/practices/practice-lists' component={RequireAuth(PracticeListsPage)} />
+          <Route path='/practices/practice-lists/create' component={RequireAuth(CreatePracticeListPage)} />
 
           {/* Versus */}
           <Route path='/versus' component={VersusPage} />

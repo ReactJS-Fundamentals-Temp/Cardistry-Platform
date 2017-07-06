@@ -1,12 +1,12 @@
 const Flourish = require('./Flourish')
 
 module.exports = () => {
-  Flourish.find({}).exec((err, users) => {
+  Flourish.find({}).exec((err, flourishes) => {
     if (err) {
       console.log(err)
     }
 
-    if (users.length === 0) {
+    if (flourishes.length === 0) {
       let flourish = new Flourish()
       flourish.title = 'Sybil'
       flourish.description = 'Sybil is one of the classics.'

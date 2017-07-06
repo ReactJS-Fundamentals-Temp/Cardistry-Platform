@@ -25,7 +25,6 @@ class CreateEventForm extends Component {
     }
 
     handleFormSubmit({title, description, location}) {
-        console.log('LIIIIIIIT')
         this.props.createEvent({title, description, location})
     }
 
@@ -47,30 +46,15 @@ class CreateEventForm extends Component {
             <Panel>
                 <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
                     <FormGroup controlId="formHorizontalEmail">
-                    <Col componentClass={ControlLabel} sm={2}>
-                        Title
-                    </Col>
-                    <Col sm={10}>
                         <FormControl type="text" placeholder="Title" {...title} />
-                    </Col>
                     </FormGroup>
 
                     <FormGroup controlId="formHorizontalPassword">
-                    <Col componentClass={ControlLabel} sm={2}>
-                        Description
-                    </Col>
-                    <Col sm={10}>
                         <FormControl type="text" placeholder="Description" {...description} />
-                    </Col>
                     </FormGroup>
 
                     <FormGroup controlId="formHorizontalPassword">
-                    <Col componentClass={ControlLabel} sm={2}>
-                        Location
-                    </Col>
-                    <Col sm={10}>
                         <FormControl type="text" placeholder="Location" {...location} />
-                    </Col>
                     </FormGroup>
 
                     <FormGroup>

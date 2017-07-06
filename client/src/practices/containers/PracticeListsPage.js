@@ -15,7 +15,7 @@ class PracticeListsPage extends Component {
     return this.props.practiceLists.map(practiceList => {
       return (
         <div>
-          <PracticeList practiceList={practiceList} />
+          <PracticeList key={practiceList._id} practiceList={practiceList} />
           <hr />
         </div>
       )
