@@ -94,7 +94,7 @@ export default function reducer (state = {all: [], userFlourishes: [], searchRes
     case FETCH_USER_FLOURISHES:
       return Object.assign({}, state, { userFlourishes: action.payload.flourishes })
     case SEARCH_FLOURISHES:
-      return Object.assign({}, state, { searchResults: action.payload.flourishes })
+      return Object.assign({}, state, { searchResults: state.searchResults.concat(action.payload.flourishes) })
     case FLOURISH_ERROR:
       return Object.assign({}, state, { error: action.payload })
 

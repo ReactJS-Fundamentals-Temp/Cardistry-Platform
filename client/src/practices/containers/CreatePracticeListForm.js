@@ -5,8 +5,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 
-import { fetchFlourishes } from '../../flourishes/modules/flourishes';
-import { createPracticeList } from '../modules/practice';
+import { fetchFlourishes } from '../../flourishes/modules/flourishes'
+import { createPracticeList } from '../modules/practices'
 
 import FlourishJumbotron from '../../flourishes/components/FlourishJumbotron'
 
@@ -17,27 +17,50 @@ class CreatePracticeListForm extends Component {
 
         this.handleFormSubmit = this.handleFormSubmit.bind(this)
         this.toggleCheckbox = this.toggleCheckbox.bind(this)
+
+        this.state = {
+            selectedFlourishes: []
+        }
     }
 
     static contextTypes = {
         router: PropTypes.object
     }
 
-    componentDidMount() {
+    toggleCheckbox (event) {
+        let checkedFlourishId = event.target.getAttribute("data-id")
+        let isChecked = event.target.checked
+
+        if (isChecked) {
+             this.setState(prevState => ({
+                selectedFlourishes: prevState.selectedFlourishes.concat([checkedFlourishId])
+            }))
+        } else {
+            for (let [index, flourishId] of this.state.selectedFlourishes.entries()) {
+                if (String(flourishId) === String(checkedFlourishId)) {
+                    this.setState(prevState => ({
+                        selectedFlourishes: prevState.selectedFlourishes.filter((_, i) => i !== index)
+                    }))
+                }
+            }
+        }
     }
 
-    toggleCheckbox (e) {
-        console.log(e.target.checked, 'EVENT')
-    }
+    handleFormSubmit({title}) {
+        console.log(title, 'title before redux')
+        console.log(this.state.selectedFlourishes, 'flourishes before redux')
 
-    handleFormSubmit({flourishes}) {
-        // this.props.createPracticeList()
+        this.props.createPracticeList({flourishes: this.state.selectedFlourishes, title})
     }
 
     renderFlourishes() {
+        if (this.props.flourishes < 1) {
+            return ( <p>No flourishes selected.</p>)
+        }
+
         return this.props.flourishes.map(flourish => {
             return (
-                <Checkbox key={flourish._id} onChange={this.toggleCheckbox}>
+                <Checkbox className='flourish-checkbox' key={flourish._id} onChange={this.toggleCheckbox} data-id={flourish._id}>
                 {flourish.title}
                 </Checkbox>
             )
@@ -50,14 +73,13 @@ class CreatePracticeListForm extends Component {
                 <div className='alert alert-danger'>
                     <strong>{this.props.errorMessage}</strong>
                 </div>
-            );
+            )
         }
     }
 
 
     render() {
-        const {fields: {}, handleSubmit} = this.props
-        console.log(this.props.flourishes, 'PROPS FLOURISHES')
+        const {fields: {title}, handleSubmit} = this.props
 
         return (
             <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
@@ -66,6 +88,15 @@ class CreatePracticeListForm extends Component {
                     {this.renderFlourishes()}
                 </FormGroup>
             </Panel>
+
+            <FormGroup controlId="formHorizontalTitle">
+            <Col componentClass={ControlLabel} sm={2}>
+                Title
+            </Col>
+            <Col sm={10}>
+                <FormControl type="text" placeholder="Title" {...title} />
+            </Col>
+            </FormGroup>
 
             <FormGroup>
             <Col sm={10}>
@@ -95,11 +126,11 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ createPracticeList }, dispatch);
+    return bindActionCreators({ createPracticeList }, dispatch)
 }
 
 export default reduxForm({
     form: 'CreatePracticeListForm',
-    fields: [],
+    fields: ['title'],
     validate
 }, mapStateToProps, mapDispatchToProps)(CreatePracticeListForm)

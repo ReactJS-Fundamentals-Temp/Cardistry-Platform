@@ -7,11 +7,13 @@ const path = require('path')
 const users = require('../users/users-routes')
 const flourishes = require('../flourishes/flourishes-routes')
 const events = require('../events/events-routes')
+const practices = require('../practices/practices-routes')
 
 module.exports = (app, env) => {
   app.use('/api/v1/users', users)
   app.use('/api/v1/flourishes', flourishes)
   app.use('/api/v1/events', events)
+  app.use('/api/v1/practices', practices)
 
   if (env !== 'production') {
     console.log(env)

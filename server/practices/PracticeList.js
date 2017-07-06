@@ -4,7 +4,7 @@ const practiceListsSchema = mongoose.Schema({
   _creator: { type: mongoose.Schema.ObjectId, ref: 'User' },
   title: String,
   flourishes: [{ type: mongoose.Schema.ObjectId, ref: 'Flourish' }],
-  times_practiced: { type: Number }
+  times_practiced: { type: Number, default: 0 }
 }, { timestamps: true })
 
 module.exports = mongoose.model('PracticeList', practiceListsSchema)

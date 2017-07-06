@@ -6,6 +6,7 @@ import authenticationReducer from './authentication/modules/authentication'
 import flourishesReducer from './flourishes/modules/flourishes'
 import eventsReducer from './events/modules/events'
 import usersReducer from './users/modules/users'
+import practicesReducer from './practices/modules/practices'
 
 const configureRootReducer = () => {
   const reducers = {
@@ -14,7 +15,8 @@ const configureRootReducer = () => {
     authentication: authenticationReducer,
     flourishes: flourishesReducer,
     events: eventsReducer,
-    users: usersReducer
+    users: usersReducer,
+    practices: practicesReducer
   }
 
   const rootReducer = combineReducers(reducers)
