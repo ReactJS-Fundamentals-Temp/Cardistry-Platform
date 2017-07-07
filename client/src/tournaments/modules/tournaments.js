@@ -27,10 +27,10 @@ export function fetchTournaments () {
   }
 }
 
-export function createTournament ({title, description}) {
+export function createTournament ({title, description, participantCount, roundsCount, prize}) {
   return dispatch => {
     const url = SERVICE_URL
-    const data = {title, description}
+    const data = {title, description, participantCount, roundsCount, prize}
 
     requester.post(url, data, true)
       .then(response => {

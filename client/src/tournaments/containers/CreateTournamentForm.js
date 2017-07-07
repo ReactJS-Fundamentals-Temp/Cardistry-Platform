@@ -24,8 +24,8 @@ class CreateTournamentForm extends Component {
      onDrop(acceptedFiles, rejectedFiles) {
     }
 
-    handleFormSubmit({title, description}) {
-        this.props.createTournament({ title, description});
+    handleFormSubmit({title, description, participantCount, roundsCount, prize}) {
+        this.props.createTournament({ title, description, participantCount, roundsCount, prize});
     }
 
     renderAlert() {
@@ -40,12 +40,13 @@ class CreateTournamentForm extends Component {
 
 
     render() {
-        const {fields: {title, description}, handleSubmit} = this.props;
+        const {fields: {title, description, participantCount, roundsCount, prize}, handleSubmit} = this.props;
 
         return (
         <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
             <FormGroup controlId="formHorizontalEmail">
             <Col componentClass={ControlLabel} sm={2}>
+                Title
             </Col>
             <Col sm={10}>
                 <FormControl type="text" placeholder="Title" {...title} />
@@ -58,6 +59,33 @@ class CreateTournamentForm extends Component {
             </Col>
             <Col sm={10}>
                 <FormControl type="text" placeholder="Description" {...description} />
+            </Col>
+            </FormGroup>
+
+            <FormGroup controlId="formHorizontalPassword">
+            <Col componentClass={ControlLabel} sm={2}>
+                Participant count
+            </Col>
+            <Col sm={10}>
+                <FormControl type="number" placeholder="Enter a number" {...participantCount} />
+            </Col>
+            </FormGroup>
+
+            <FormGroup controlId="formHorizontalPassword">
+            <Col componentClass={ControlLabel} sm={2}>
+                Rounds count
+            </Col>
+            <Col sm={10}>
+                <FormControl type="number" placeholder="Enter a number" {...roundsCount} />
+            </Col>
+            </FormGroup>
+
+            <FormGroup controlId="formHorizontalPassword">
+            <Col componentClass={ControlLabel} sm={2}>
+                Prize
+            </Col>
+            <Col sm={10}>
+                <FormControl type="text" placeholder="What is the prize?" {...prize} />
             </Col>
             </FormGroup>
 
@@ -85,6 +113,8 @@ function validate(values) {
         errors.description = 'Description is required';
     }
 
+    //TODO VALIDATIONS
+
     return errors;
 }
 
@@ -100,6 +130,6 @@ function mapDispatchToProps(dispatch) {
 
 export default reduxForm({
     form: 'CreateTournamentForm',
-    fields: ['title', 'description', 'video', 'thumbnail', 'images'],
+    fields: ['title', 'description', 'participantCount', 'roundsCount', 'prize'],
     validate
 }, mapStateToProps, mapDispatchToProps)(CreateTournamentForm)

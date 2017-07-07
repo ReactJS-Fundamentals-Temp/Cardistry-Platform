@@ -19,6 +19,9 @@ function create (req, res) {
   newTournament._creator = currentUser._id
   newTournament.title = newTournamentData.title
   newTournament.description = newTournamentData.description
+  newTournament.contestant_limit = newTournamentData.participantCount
+  newTournament.rounds_count = newTournamentData.roundsCount
+  newTournament.prize = newTournamentData.prize
   newTournament.save()
 
   if (req.files) {
