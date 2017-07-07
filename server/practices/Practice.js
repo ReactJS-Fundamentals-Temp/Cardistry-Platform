@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const deepPopulate = require('mongoose-deep-populate')(mongoose)
 
 const practiceSchema = mongoose.Schema({
   _creator: { type: mongoose.Schema.ObjectId, ref: 'User' },
@@ -12,5 +13,7 @@ const practiceSchema = mongoose.Schema({
   required_consistency_repetitions: { type: Number }
 
 }, { timestamps: true })
+
+practiceSchema.plugin(deepPopulate, {})
 
 module.exports = mongoose.model('Practice', practiceSchema)

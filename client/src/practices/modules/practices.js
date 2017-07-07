@@ -11,6 +11,7 @@ const CREATE_PRACTICE_LIST = 'CREATE_PRACTICE_LIST'
 
 const FETCH_PRACTICE_TYPES = 'FETCH_PRACTICE_TYPES'
 const START_PRACTICE = 'START_PRACTICE'
+const FETCH_PRACTICE = 'FETCH_PRACTICE'
 
 const PRACTICE_ERROR = 'PRACTICE_ERROR'
 
@@ -65,16 +66,38 @@ export function fetchPracticeTypes () {
   }
 }
 
-export function startPractice ({selectedPracticeType, selectedPracticeList, required_consistency_repetitions}) {
+export function startPractice ({selectedPracticeType, selectedPracticeTypeName, selectedPracticeList, required_consistency_repetitions}) {
   return dispatch => {
     const url = SERVICE_URL
     const data = {type: selectedPracticeType, practiceList: selectedPracticeList, required_consistency_repetitions}
 
+    console.log(selectedPracticeTypeName)
+
     requester.post(url, data, true)
       .then(response => {
         console.log(response.data, 'res')
-        dispatch({type: START_PRACTICE, payload: {currentPractice: response.data.practice}})
-        browserHistory.push('/practices/' + response.data.practice._id)
+        const practice = response.data.practice
+
+        dispatch({type: START_PRACTICE})
+        browserHistory.push(`/practices/${selectedPracticeTypeName}/${practice._id}`)
+      })
+      .catch(response => {
+        console.log(response, 'err')
+        dispatch(practiceError('There was a problem creating the practice.'))
+      })
+  }
+}
+
+export function fetchPractice (id) {
+  return dispatch => {
+    const url = SERVICE_URL + `/current-practice/${id}`
+    console.log(url)
+
+    requester.get(url, true)
+      .then(response => {
+        console.log(response.data, 'res')
+
+        dispatch({type: FETCH_PRACTICE, payload: {practice: response.data.practice}})
       })
       .catch(response => {
         console.log(response, 'err')
@@ -95,7 +118,7 @@ export function practiceError (error) {
 // Reducer
 export default function reducer (state = { currentUserPracticeLists: [], practiceTypes: [], currentPractice: {} }, action) {
   switch (action.type) {
-    case START_PRACTICE:
+    case FETCH_PRACTICE:
       return Object.assign({}, state, { currentPractice: action.payload.practice })
     case FETCH_CURRENT_USER_PRACTICE_LISTS:
       return Object.assign({}, state, { currentUserPracticeLists: action.payload.practiceLists })
@@ -104,6 +127,7 @@ export default function reducer (state = { currentUserPracticeLists: [], practic
     case PRACTICE_ERROR:
       return Object.assign({}, state, { error: action.payload })
     case CREATE_PRACTICE_LIST:
+    case START_PRACTICE:
     default:
       return state
   }

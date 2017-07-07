@@ -72,7 +72,7 @@ export default class Routes extends Component {
           <Route path='/practices/start' component={RequireAuth(StartPracticePage)} />
           <Route path='/practices/practice-lists' component={RequireAuth(PracticeListsPage)} />
           <Route path='/practices/practice-lists/create' component={RequireAuth(CreatePracticeListPage)} />
-          <Route path='/practices/:id' component={RequireAuth(ConsistencyPlaygroundPage)} />
+          <Route path='/practices/consistency/:id' component={RequireAuth(ConsistencyPlaygroundPage)} />
 
           {/* Versus */}
           <Route path='/versus' component={VersusPage} />

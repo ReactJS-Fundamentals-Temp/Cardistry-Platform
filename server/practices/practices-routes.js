@@ -3,6 +3,10 @@ let router = express.Router()
 const practicesController = require('./practices-controller')
 const auth = require('../middlewares/auth')
 
+router.get('/current-practice/:id', auth.requireAuth, (req, res) => {
+  practicesController.getPractice(req, res)
+})
+
 router.post('', auth.requireAuth, (req, res) => {
   practicesController.createPractice(req, res)
 })
