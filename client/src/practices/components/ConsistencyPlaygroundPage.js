@@ -8,7 +8,7 @@ export default class ConsistencyPlaygroundPage extends Component {
   render () {
     return (
       <div>
-        <ConsistencyInformationBar />
+        <ConsistencyInformationBar practiceId={this.props.params.id} />
         <ConsistencyTracker />
         <ConsistencyControls />
       </div>

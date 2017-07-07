@@ -49,6 +49,7 @@
     "jwt-simple": "0.5.1",
     "lodash": "^3.10.1",
     "mongoose": "4.6.6",
+    "mongoose-deep-populate": "^3.0.0",
     "nodemon": "^1.11.0",
     "passport": "0.3.2",
     "passport-jwt": "2.2.1",

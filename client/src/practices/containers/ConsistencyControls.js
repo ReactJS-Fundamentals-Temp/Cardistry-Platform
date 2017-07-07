@@ -4,8 +4,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Panel } from 'react-bootstrap'
 
-import { searchFlourishes } from '../../flourishes/modules/flourishes'
-
 class ConsistencyControls extends Component {
   render () {
     return (
@@ -17,7 +15,7 @@ class ConsistencyControls extends Component {
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ searchFlourishes }, dispatch)
+  return bindActionCreators({ }, dispatch)
 }
 
 export default connect(null, mapDispatchToProps)(ConsistencyControls)

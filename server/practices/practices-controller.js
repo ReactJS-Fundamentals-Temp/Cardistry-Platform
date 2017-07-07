@@ -2,6 +2,22 @@ const PracticeList = require('./PracticeList')
 const Practice = require('./Practice')
 const PracticeType = require('./PracticeType')
 
+function getPractice (req, res) {
+  let practiceId = req.params.id
+
+  console.log(practiceId, 'ID')
+
+  Practice
+    .findOne({_id: practiceId})
+    .populate('_type')
+    .deepPopulate('_practice_list.flourishes')
+    .then(practice => {
+      console.log(practice, 'PRACTICE')
+
+      res.json({success: true, message: 'Practice fetched successfully', practice: practice})
+    })
+}
+
 function createPractice (req, res) {
   let currentUser = req.user
   let newPracticeData = req.body
@@ -55,5 +71,6 @@ module.exports = {
   createPractice,
   getCurrentUserPracticeList,
   createPracticeList,
-  getPracticeTypes
+  getPracticeTypes,
+  getPractice
 }

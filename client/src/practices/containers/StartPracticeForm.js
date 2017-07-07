@@ -12,6 +12,7 @@ class StartPracticeForm extends Component {
 
     this.state = {
       selectedPracticeType: null,
+      selectedPracticeTypeName: null,
       selectedPracticeList: null
     }
 
@@ -30,6 +31,7 @@ class StartPracticeForm extends Component {
   componentWillReceiveProps (nextProps) {
     this.setState({
       selectedPracticeType: nextProps.practiceTypes[0]._id,
+      selectedPracticeTypeName: nextProps.practiceTypes[0].name,
       selectedPracticeList: nextProps.currentUserPracticeLists[0]._id
     })
   }
@@ -37,9 +39,13 @@ class StartPracticeForm extends Component {
   selectPracticeType (event) {
     console.log(event.target.value)
     const selectedPracticeType = event.target.value
+    const selectedPracticeTypeName = event.target.getAttribute('key')
+
+    console.log(selectedPracticeTypeName)
 
     this.setState({
-      selectedPracticeType
+      selectedPracticeType,
+      selectedPracticeTypeName
     })
   }
 
@@ -53,8 +59,10 @@ class StartPracticeForm extends Component {
   }
 
   handleFormSubmit ({required_consistency_repetitions}) {
+    console.log(this.state.selectedPracticeTypeName)
     this.props.startPractice({
       selectedPracticeType: this.state.selectedPracticeType,
+      selectedPracticeTypeName: this.state.selectedPracticeTypeName,
       selectedPracticeList: this.state.selectedPracticeList,
       required_consistency_repetitions
     })
