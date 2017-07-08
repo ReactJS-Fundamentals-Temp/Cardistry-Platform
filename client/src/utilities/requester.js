@@ -11,6 +11,16 @@ function post (url, data, useSession) {
   return _makeRequest('POST', url, data, requestHeaders)
 }
 
+function put (url, data, useSession) {
+  let requestHeaders = _getHeaders(data, useSession)
+  return _makeRequest('PUT', url, data, requestHeaders)
+}
+
+function remove (url, data, useSession) {
+  let requestHeaders = _getHeaders(data, useSession)
+  return _makeRequest('DELETE', url, data, requestHeaders)
+}
+
 function _makeRequest (method, url, data, headers) {
   return axios({
     method: method,

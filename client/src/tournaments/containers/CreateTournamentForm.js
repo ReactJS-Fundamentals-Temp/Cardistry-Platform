@@ -24,8 +24,8 @@ class CreateTournamentForm extends Component {
      onDrop(acceptedFiles, rejectedFiles) {
     }
 
-    handleFormSubmit({title, description, participantCount, roundsCount, prize}) {
-        this.props.createTournament({ title, description, participantCount, roundsCount, prize});
+    handleFormSubmit({title, description, participantsLimit, contestantsLimit, roundsCount, prize}) {
+        this.props.createTournament({ title, description, participantsLimit, contestantsLimit, roundsCount, prize});
     }
 
     renderAlert() {
@@ -40,7 +40,7 @@ class CreateTournamentForm extends Component {
 
 
     render() {
-        const {fields: {title, description, participantCount, roundsCount, prize}, handleSubmit} = this.props;
+        const {fields: {title, description, participantsLimit, contestantsLimit, roundsCount, prize}, handleSubmit} = this.props;
 
         return (
         <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
@@ -64,10 +64,19 @@ class CreateTournamentForm extends Component {
 
             <FormGroup controlId="formHorizontalPassword">
             <Col componentClass={ControlLabel} sm={2}>
-                Participant count
+                Participants count
             </Col>
             <Col sm={10}>
-                <FormControl type="number" placeholder="Enter a number" {...participantCount} />
+                <FormControl type="number" placeholder="Enter a number" {...participantsLimit} />
+            </Col>
+            </FormGroup>
+
+            <FormGroup controlId="formHorizontalPassword">
+            <Col componentClass={ControlLabel} sm={2}>
+                Contestants count
+            </Col>
+            <Col sm={10}>
+                <FormControl type="number" placeholder="Enter a number" {...contestantsLimit} />
             </Col>
             </FormGroup>
 
@@ -130,6 +139,6 @@ function mapDispatchToProps(dispatch) {
 
 export default reduxForm({
     form: 'CreateTournamentForm',
-    fields: ['title', 'description', 'participantCount', 'roundsCount', 'prize'],
+    fields: ['title', 'description', 'participansLimit', 'contestantsLimit', 'roundsCount', 'prize'],
     validate
 }, mapStateToProps, mapDispatchToProps)(CreateTournamentForm)

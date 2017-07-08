@@ -19,7 +19,8 @@ function create (req, res) {
   newTournament._creator = currentUser._id
   newTournament.title = newTournamentData.title
   newTournament.description = newTournamentData.description
-  newTournament.contestant_limit = newTournamentData.participantCount
+  newTournament.participants_limit = newTournamentData.participantsLimit
+  newTournament.contestants_limit = newTournamentData.contestantsLimit
   newTournament.rounds_count = newTournamentData.roundsCount
   newTournament.prize = newTournamentData.prize
   newTournament.save()
@@ -56,6 +57,19 @@ function searchTournaments (req, res) {
     .then(tournaments => {
       console.log(tournaments)
       res.json({ success: true, message: 'Tournaments found successfully', tournaments: tournaments })
+    })
+}
+
+function joinTournament (req, res) {
+  let currentUser = req.user
+  let tournamentId = req.params.id
+
+  Tournament
+    .findById(tournamentId)
+    .then(tournament => {
+      tournament.participants.push(tournamentId)
+      tournament.save()
+      res.json({ success: true, message: 'User joined tournament successfully' })
     })
 }
 

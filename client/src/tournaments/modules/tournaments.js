@@ -8,6 +8,7 @@ const SERVICE_URL = `${BASE_URL}/${API_VERSION}/tournaments`
 // Action Types
 const FETCH_TOURNAMENTS = 'FETCH_TOURNAMENTS'
 const CREATE_TOURNAMENT = 'CREATE_TOURNAMENT'
+const JOIN_TOURNAMENT = 'JOIN_TOURNAMENT'
 const FETCH_USER_TOURNAMENTS = 'FETCH_USER_TOURNAMENTS'
 const SEARCH_TOURNAMENTS = 'SEARCH_TOURNAMENTS'
 const TOURNAMENT_ERROR = 'TOURNAMENT_ERROR'
@@ -27,15 +28,33 @@ export function fetchTournaments () {
   }
 }
 
-export function createTournament ({title, description, participantCount, roundsCount, prize}) {
+export function createTournament ({title, description, participantsLimit, contestantsLimit, roundsCount, prize}) {
   return dispatch => {
     const url = SERVICE_URL
-    const data = {title, description, participantCount, roundsCount, prize}
+    const data = {title, description, participantsLimit, contestantsLimit, roundsCount, prize}
 
     requester.post(url, data, true)
       .then(response => {
         console.log(response.data, 'res')
         dispatch({type: CREATE_TOURNAMENT})
+        browserHistory.push('/tournaments')
+      })
+      .catch(response => {
+        console.log(response, 'err')
+        dispatch(tournamentError('There was a problem creating the tournament.'))
+      })
+  }
+}
+
+export function joinTournament (tournamentId) {
+  return dispatch => {
+    const url = SERVICE_URL + `/join/${tournamentId}`
+    const data = {}
+
+    requester.put(url, data, true)
+      .then(response => {
+        console.log(response.data, 'res')
+        dispatch({type: JOIN_TOURNAMENT})
         browserHistory.push('/tournaments')
       })
       .catch(response => {

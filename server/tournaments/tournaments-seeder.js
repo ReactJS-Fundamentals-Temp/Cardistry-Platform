@@ -10,6 +10,10 @@ module.exports = () => {
       let tournament = new Tournament()
       tournament.title = 'Launch Tournament'
       tournament.description = 'Cardistry first tournament in the world '
+      tournament.participants_limit = ''
+      tournament.contestants_limit = ''
+      tournament.rounds_count = ''
+      tournament.prize = ''
       tournament.save()
 
       console.log('tournaments collection seeded')

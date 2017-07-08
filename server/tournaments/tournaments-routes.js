@@ -17,6 +17,11 @@ router.get('/tournament/search/:title', (req, res) => {
   tournametsController.searchTournaments(req, res)
 })
 
+router.put('/join/:id', auth.requireAuth, (req, res) => {
+  console.log('kvo')
+  tournametsController.joinTournament(req, res)
+})
+
 router.post('', auth.requireAuth, (req, res) => {
   tournametsController.create(req, res)
 })
