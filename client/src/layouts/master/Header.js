@@ -37,6 +37,13 @@ class Header extends Component {
           </MenuItem>
           <MenuItem divider />
           <MenuItem eventKey={3.1}>
+            <Link to={`tournaments/create`}>Create a Tournament</Link>
+          </MenuItem>
+          <MenuItem eventKey={3.1}>
+            <Link to={`tournaments`}>View All Tournaments</Link>
+          </MenuItem>
+          <MenuItem divider />
+          <MenuItem eventKey={3.1}>
             <Link to={`practices/start`}>Start Practice</Link>
           </MenuItem>
           <MenuItem divider />

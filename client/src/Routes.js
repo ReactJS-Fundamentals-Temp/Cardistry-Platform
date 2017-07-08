@@ -27,6 +27,10 @@ import FlourishesPage from './flourishes/containers/FlourishesPage'
 import CreateFlourishPage from './flourishes/components/CreateFlourishPage'
 import PortfolioPage from './flourishes/containers/PortfolioPage'
 
+// Tournaments
+import TournamentsPage from './tournaments/containers/TournamentsPage'
+import CreateTournamentPage from './tournaments/components/CreateTournamentPage'
+
 // Practices
 import PracticePage from './practices/components/PracticePage'
 import StartPracticePage from './practices/components/StartPracticePage'
@@ -66,6 +70,10 @@ export default class Routes extends Component {
           {/* Flourishes */}
           <Route path='/flourishes' component={FlourishesPage} />
           <Route path='/flourishes/create' component={RequireAuth(CreateFlourishPage)} />
+
+          {/* Tournaments */}
+          <Route path='/tournaments' component={TournamentsPage} />
+          <Route path='/tournaments/create' component={RequireAuth(CreateTournamentPage)} />
 
           {/* Practice */}
           <Route path='/practices' component={PracticePage} />
