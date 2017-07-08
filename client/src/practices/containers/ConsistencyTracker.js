@@ -1,23 +1,15 @@
-
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { Panel } from 'react-bootstrap'
 
-import { searchFlourishes } from '../../flourishes/modules/flourishes'
-
-class ConsistencyTracker extends Component {
+export default class ConsistencyTracker extends Component {
   render () {
     return (
       <Panel>
         <h1>ConsistencyTracker</h1>
+        <p>{this.props.currentFlourish}</p>
+        <p>{this.props.streak}</p>
+        <p>{this.props.requiredConsistencyRepetitions}</p>
       </Panel>
     )
-  };
+  }
 }
-
-function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ searchFlourishes }, dispatch)
-}
-
-export default connect(null, mapDispatchToProps)(ConsistencyTracker)

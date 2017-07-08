@@ -10,7 +10,14 @@ function getPractice (req, res) {
   Practice
     .findOne({_id: practiceId})
     .populate('_type')
-    .deepPopulate('_practice_list.flourishes')
+    // .deepPopulate('_practice_list.flourishes')
+    .populate({
+      path: '_practice_list',
+      model: 'PracticeList',
+      populate: {
+        path: 'flourishes',
+        model: 'Flourish'
+      }})
     .then(practice => {
       console.log(practice, 'PRACTICE')
 
