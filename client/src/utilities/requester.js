@@ -48,5 +48,7 @@ function _getHeaders (isJSON, useSession) {
 
 export default {
   get,
-  post
+  post,
+  put,
+  remove
 }

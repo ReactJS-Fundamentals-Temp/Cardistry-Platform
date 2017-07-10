@@ -5,7 +5,7 @@ import TournamentJumbotron from './TournamentJumbotron'
 
 export default class TournamentsList extends Component {
   linkClicked () {
-    console.log('clicked')
+    console.log('clicked on Tournament')
   }
 
   renderTournaments () {

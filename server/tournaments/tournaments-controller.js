@@ -67,7 +67,7 @@ function joinTournament (req, res) {
   Tournament
     .findById(tournamentId)
     .then(tournament => {
-      tournament.participants.push(tournamentId)
+      tournament.participants.push(currentUser._id)
       tournament.save()
       res.json({ success: true, message: 'User joined tournament successfully' })
     })
@@ -77,5 +77,6 @@ module.exports = {
   index,
   create,
   getUserTournaments,
-  searchTournaments
+  searchTournaments,
+  joinTournament
 }

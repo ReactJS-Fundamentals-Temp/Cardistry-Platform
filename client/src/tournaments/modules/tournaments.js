@@ -118,6 +118,7 @@ export default function reducer (state = {all: [], userTournaments: [], searchRe
       return Object.assign({}, state, { error: action.payload })
 
     case CREATE_TOURNAMENT:
+    case JOIN_TOURNAMENT:
     default: return state
   }
 }
