@@ -41,6 +41,30 @@ function createPractice (req, res) {
   res.json({success: true, message: 'Practice created successfully', practice: newPractice})
 }
 
+function completeStep (req, res) {
+  let practiceId = req.params.id
+
+  Practice
+    .findOne({_id: practiceId})
+    .populate('_type')
+    // .deepPopulate('_practice_list.flourishes')
+    .populate({
+      path: '_practice_list',
+      model: 'PracticeList',
+      populate: {
+        path: 'flourishes',
+        model: 'Flourish'
+      }})
+    .then(practice => {
+      console.log(practice, 'PRACTICE')
+
+      practice.step += 1
+      practice.save()
+
+      res.json({success: true, message: 'Practice fetched successfully', practice: practice})
+    })
+}
+
 function getCurrentUserPracticeList (req, res) {
   let currentUser = req.user
 
@@ -79,5 +103,6 @@ module.exports = {
   getCurrentUserPracticeList,
   createPracticeList,
   getPracticeTypes,
-  getPractice
+  getPractice,
+  completeStep
 }

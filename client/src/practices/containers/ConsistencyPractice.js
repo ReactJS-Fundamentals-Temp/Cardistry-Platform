@@ -1,10 +1,10 @@
-
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Panel } from 'react-bootstrap'
 
-import { fetchPractice } from '../modules/practices'
+import { fetchPractice, completeStep } from '../modules/practices'
+import { resetStreak } from '../modules/consistency'
 
 import PracticeInformationBar from '../components/PracticeInformationBar'
 import ConsistencyTracker from './ConsistencyTracker'
@@ -15,13 +15,27 @@ class ConsistencyPractice extends Component {
     super(props)
 
     this.state = {
-      streak: 0
+      practiceId: this.props.params.id
     }
   }
 
-  componentDidMount () {
-    const practiceId = this.props.params.id
-    this.props.fetchPractice(practiceId)
+  componentWillMount () {
+    this.props.fetchPractice(this.state.practiceId)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    console.log(nextProps, 'NEXT')
+
+    if (nextProps.streak === this.props.practice.required_consistency_repetitions) {
+      if (nextProps.practice.step !== this.props.practice._practice_list.flourishes.length - 1) {
+        this.props.completeStep(this.state.practiceId)
+      } else {
+        // Complete Practice
+        console.log('COMPLETE')
+      }
+
+      this.props.resetStreak()
+    }
   }
 
   render () {
@@ -29,20 +43,27 @@ class ConsistencyPractice extends Component {
 
     return (
       <Panel>
-        <PracticeInformationBar practiceList={practice._practice_list} nextFlourish={practice._practice_list.flourishes[practice._practice_list.flourishes.length === 1 ? 0 : practice.step + 1]} />
-        <ConsistencyTracker currentFlourish={practice._practice_list.flourishes[practice.step].title} streak={this.state.streak} requiredConsistencyRepetitions={practice.required_consistency_repetitions} />
-        <ConsistencyControls totalFails={practice.total_fails} totalSuccesses={practice.total_successes} />
+        <PracticeInformationBar practiceList={practice._practice_list} nextFlourish={this.props.nextFlourish} />
+        <ConsistencyTracker currentFlourish={this.props.currentFlourish} streak={this.props.streak} requiredConsistencyRepetitions={practice.required_consistency_repetitions} />
+        <ConsistencyControls totalFails={this.props.totalFails} totalSuccesses={this.props.totalSuccesses} />
       </Panel>
     )
   };
 }
 
 function mapStateToProps (state) {
-  return { practice: state.practices.currentPractice }
+  return {
+    practice: state.practices.currentPractice,
+    streak: state.consistency.streak,
+    currentFlourish: state.practices.currentFlourish,
+    nextFlourish: state.practices.nextFlourish,
+    totalSuccesses: state.practices.totalSuccesses,
+    totalFails: state.practices.totalFails
+  }
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ fetchPractice }, dispatch)
+  return bindActionCreators({ fetchPractice, completeStep, resetStreak }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConsistencyPractice)

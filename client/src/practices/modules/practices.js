@@ -13,6 +13,8 @@ const FETCH_PRACTICE_TYPES = 'FETCH_PRACTICE_TYPES'
 const START_PRACTICE = 'START_PRACTICE'
 const FETCH_PRACTICE = 'FETCH_PRACTICE'
 
+const COMPLETE_STEP = 'COMPLETE_STEP'
+
 const PRACTICE_ERROR = 'PRACTICE_ERROR'
 
 // Action Creators
@@ -27,7 +29,7 @@ export function fetchCurrentUserPracticeLists () {
       })
       .catch(response => {
         console.log(response, 'err')
-        dispatch(practiceError('There was a fetching the current users practice lists.'))
+        dispatch(practiceError('There was a problem fetching the current users practice lists.'))
       })
   }
 }
@@ -61,7 +63,7 @@ export function fetchPracticeTypes () {
       })
       .catch(response => {
         console.log(response, 'err')
-        dispatch(practiceError('There was a problem creating the practice list.'))
+        dispatch(practiceError('There was a problem fetching the practice types.'))
       })
   }
 }
@@ -91,7 +93,6 @@ export function startPractice ({selectedPracticeType, selectedPracticeTypeName, 
 export function fetchPractice (id) {
   return dispatch => {
     const url = SERVICE_URL + `/current-practice/${id}`
-    console.log(url)
 
     requester.get(url, true)
       .then(response => {
@@ -101,9 +102,28 @@ export function fetchPractice (id) {
       })
       .catch(response => {
         console.log(response, 'err')
-        dispatch(practiceError('There was a problem creating the practice.'))
+        dispatch(practiceError('There was a problem fetching the practice.'))
       })
   }
+}
+
+export function completeStep (id) {
+  return dispatch => {
+    const url = SERVICE_URL + `/current-practice/${id}/complete-step`
+
+    requester.put(url, {}, true)
+      .then(response => {
+        dispatch({type: COMPLETE_STEP, payload: {practice: response.data.practice}})
+      })
+      .catch(response => {
+        console.log(response, 'err')
+        dispatch(practiceError('There was a problem completing the step.'))
+      })
+  }
+}
+
+export function completePractice () {
+
 }
 
 export function practiceError (error) {
@@ -115,17 +135,38 @@ export function practiceError (error) {
   }
 }
 
+const defaultState = {
+  currentUserPracticeLists: [],
+  practiceTypes: [],
+  currentPractice: {},
+  totalSuccesses: 0,
+  totalFails: 0,
+  currentFlourish: {},
+  nextFlourish: {}
+}
+
 // Reducer
-export default function reducer (state = { currentUserPracticeLists: [], practiceTypes: [], currentPractice: {} }, action) {
+export default function reducer (state = defaultState, action) {
   switch (action.type) {
     case FETCH_PRACTICE:
-      return Object.assign({}, state, { currentPractice: action.payload.practice })
+      const practice = action.payload.practice
+      const currentFlourish = practice._practice_list.flourishes[practice.step]
+      const nextFlourish = practice._practice_list.flourishes[practice._practice_list.flourishes.length === 1 ? 0 : practice.step + 1]
+
+      return Object.assign({}, state, { currentPractice: practice, currentFlourish, nextFlourish })
     case FETCH_CURRENT_USER_PRACTICE_LISTS:
       return Object.assign({}, state, { currentUserPracticeLists: action.payload.practiceLists })
     case FETCH_PRACTICE_TYPES:
       return Object.assign({}, state, { practiceTypes: action.payload.practiceTypes })
     case PRACTICE_ERROR:
       return Object.assign({}, state, { error: action.payload })
+    case COMPLETE_STEP:
+
+      return Object.assign({}, state, {
+        currentPractice: action.payload.practice,
+        currentFlourish: action.payload.practice._practice_list.flourishes[action.payload.practice.step],
+        nextFlourish: action.payload.practice._practice_list.flourishes[action.payload.practice._practice_list.flourishes.length === 1 ? 0 : action.payload.practice.step + 1]
+      })
     case CREATE_PRACTICE_LIST:
     case START_PRACTICE:
     default:

@@ -8,6 +8,7 @@ import tournamentsReducer from './tournaments/modules/tournaments'
 import eventsReducer from './events/modules/events'
 import usersReducer from './users/modules/users'
 import practicesReducer from './practices/modules/practices'
+import consistencyReducer from './practices/modules/consistency'
 
 const configureRootReducer = () => {
   const reducers = {
@@ -18,7 +19,8 @@ const configureRootReducer = () => {
     tournaments: tournamentsReducer,
     events: eventsReducer,
     users: usersReducer,
-    practices: practicesReducer
+    practices: practicesReducer,
+    consistency: consistencyReducer
   }
 
   const rootReducer = combineReducers(reducers)

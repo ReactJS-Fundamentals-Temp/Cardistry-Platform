@@ -6,7 +6,7 @@ export default class ConsistencyTracker extends Component {
     return (
       <Panel>
         <h1>ConsistencyTracker</h1>
-        <p>{this.props.currentFlourish}</p>
+        <p>{this.props.currentFlourish.title}</p>
         <p>{this.props.streak}</p>
         <p>{this.props.requiredConsistencyRepetitions}</p>
       </Panel>
