@@ -38,12 +38,14 @@ class LoginForm extends Component {
 
         return (
         <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
+            {this.renderAlert()}
             <FormGroup controlId="formHorizontalEmail">
             <Col componentClass={ControlLabel} sm={2}>
                 Email
             </Col>
             <Col sm={10}>
                 <FormControl type="email" placeholder="Email" {...email} />
+                {email.touched && email.error && <div className='error'>{email.error}</div>}
             </Col>
             </FormGroup>
 
@@ -53,6 +55,8 @@ class LoginForm extends Component {
             </Col>
             <Col sm={10}>
                 <FormControl type="password" placeholder="Password" {...password} />
+                {password.touched && password.error && <div className='error'>{password.error}</div>}
+                
             </Col>
             </FormGroup>
 
