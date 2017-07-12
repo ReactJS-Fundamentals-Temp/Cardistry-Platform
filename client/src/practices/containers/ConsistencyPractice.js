@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Panel } from 'react-bootstrap'
 
-import { fetchPractice, completeStep } from '../modules/practices'
-import { resetStreak } from '../modules/consistency'
+import { fetchPractice, completeStep, completePractice } from '../modules/practices'
+import { resetStreak, resetScore } from '../modules/consistency'
 
 import PracticeInformationBar from '../components/PracticeInformationBar'
 import ConsistencyTracker from './ConsistencyTracker'
@@ -19,7 +19,7 @@ class ConsistencyPractice extends Component {
     }
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this.props.fetchPractice(this.state.practiceId)
   }
 
@@ -28,13 +28,14 @@ class ConsistencyPractice extends Component {
 
     if (nextProps.streak === this.props.practice.required_consistency_repetitions) {
       if (nextProps.practice.step !== this.props.practice._practice_list.flourishes.length - 1) {
-        this.props.completeStep(this.state.practiceId)
+        this.props.completeStep(this.state.practiceId, {successes: this.props.totalSuccesses, fails: this.props.totalFails})
       } else {
         // Complete Practice
         console.log('COMPLETE')
+        this.props.completePractice(this.state.practiceId, {successes: this.props.totalSuccesses, fails: this.props.totalFails})
       }
 
-      this.props.resetStreak()
+      this.props.resetScore()
     }
   }
 
@@ -57,13 +58,13 @@ function mapStateToProps (state) {
     streak: state.consistency.streak,
     currentFlourish: state.practices.currentFlourish,
     nextFlourish: state.practices.nextFlourish,
-    totalSuccesses: state.practices.totalSuccesses,
-    totalFails: state.practices.totalFails
+    totalSuccesses: state.consistency.totalSuccesses,
+    totalFails: state.consistency.totalFails
   }
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ fetchPractice, completeStep, resetStreak }, dispatch)
+  return bindActionCreators({ fetchPractice, completeStep, completePractice, resetStreak, resetScore }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConsistencyPractice)

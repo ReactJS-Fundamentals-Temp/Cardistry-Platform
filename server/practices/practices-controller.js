@@ -2,6 +2,10 @@ const PracticeList = require('./PracticeList')
 const Practice = require('./Practice')
 const PracticeType = require('./PracticeType')
 
+function index (req, res) {
+
+}
+
 function getPractice (req, res) {
   let practiceId = req.params.id
 
@@ -42,7 +46,9 @@ function createPractice (req, res) {
 }
 
 function completeStep (req, res) {
-  let practiceId = req.params.id
+  const practiceId = req.params.id
+  const successes = req.body.successes
+  const fails = req.body.fails
 
   Practice
     .findOne({_id: practiceId})
@@ -59,9 +65,40 @@ function completeStep (req, res) {
       console.log(practice, 'PRACTICE')
 
       practice.step += 1
+      practice.total_successes += successes
+      practice.total_fails += fails
       practice.save()
 
-      res.json({success: true, message: 'Practice fetched successfully', practice: practice})
+      res.json({success: true, message: 'Step completed successfully', practice: practice})
+    })
+}
+
+function completePractice (req, res) {
+  const practiceId = req.params.id
+  const successes = req.body.successes
+  const fails = req.body.fails
+
+  Practice
+    .findOne({_id: practiceId})
+    .populate('_type')
+    // .deepPopulate('_practice_list.flourishes')
+    .populate({
+      path: '_practice_list',
+      model: 'PracticeList',
+      populate: {
+        path: 'flourishes',
+        model: 'Flourish'
+      }})
+    .then(practice => {
+      console.log(practice, 'PRACTICE')
+
+      practice.completed = true
+      practice.total_successes += successes
+      practice.total_fails += fails
+      practice.completedAt = Date.now()
+      practice.save()
+
+      res.json({success: true, message: 'Practice completed successfully', practice: practice})
     })
 }
 
@@ -99,10 +136,12 @@ function getPracticeTypes (req, res) {
 }
 
 module.exports = {
+  index,
   createPractice,
   getCurrentUserPracticeList,
   createPracticeList,
   getPracticeTypes,
   getPractice,
-  completeStep
+  completeStep,
+  completePractice
 }

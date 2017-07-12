@@ -35,6 +35,7 @@ import CreateTournamentPage from './tournaments/components/CreateTournamentPage'
 import PracticePage from './practices/components/PracticePage'
 import StartPracticePage from './practices/components/StartPracticePage'
 import ConsistencyPractice from './practices/containers/ConsistencyPractice'
+import PracticeSummary from './practices/containers/PracticeSummary'
 
 // Practices - Practice Lists
 import PracticeListsPage from './practices/containers/PracticeListsPage'
@@ -77,10 +78,11 @@ export default class Routes extends Component {
 
           {/* Practice */}
           <Route path='/practices' component={PracticePage} />
-          <Route path='/practices/start' component={RequireAuth(StartPracticePage)} />
-          <Route path='/practices/practice-lists' component={RequireAuth(PracticeListsPage)} />
-          <Route path='/practices/practice-lists/create' component={RequireAuth(CreatePracticeListPage)} />
-          <Route path='/practices/consistency/:id' component={RequireAuth(ConsistencyPractice)} />
+          <Route path='/user/practices/start' component={RequireAuth(StartPracticePage)} />
+          <Route path='/user/practices/practice-lists' component={RequireAuth(PracticeListsPage)} />
+          <Route path='/user/practices/practice-lists/create' component={RequireAuth(CreatePracticeListPage)} />
+          <Route path='/user/practices/consistency/:id' component={RequireAuth(ConsistencyPractice)} />
+          <Route path='/user/practices/:id' component={RequireAuth(PracticeSummary)} />
 
           {/* Versus */}
           <Route path='/versus' component={VersusPage} />

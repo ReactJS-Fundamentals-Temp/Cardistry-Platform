@@ -14,6 +14,7 @@ const START_PRACTICE = 'START_PRACTICE'
 const FETCH_PRACTICE = 'FETCH_PRACTICE'
 
 const COMPLETE_STEP = 'COMPLETE_STEP'
+const COMPLETE_PRACTICE = 'COMPLETE_PRACTICE'
 
 const PRACTICE_ERROR = 'PRACTICE_ERROR'
 
@@ -81,7 +82,7 @@ export function startPractice ({selectedPracticeType, selectedPracticeTypeName, 
         const practice = response.data.practice
 
         dispatch({type: START_PRACTICE})
-        browserHistory.push(`/practices/${selectedPracticeTypeName}/${practice._id}`)
+        browserHistory.push(`/user/practices/${selectedPracticeTypeName}/${practice._id}`)
       })
       .catch(response => {
         console.log(response, 'err')
@@ -107,11 +108,11 @@ export function fetchPractice (id) {
   }
 }
 
-export function completeStep (id) {
+export function completeStep (id, {successes, fails}) {
   return dispatch => {
     const url = SERVICE_URL + `/current-practice/${id}/complete-step`
 
-    requester.put(url, {}, true)
+    requester.put(url, {successes, fails}, true)
       .then(response => {
         dispatch({type: COMPLETE_STEP, payload: {practice: response.data.practice}})
       })
@@ -122,8 +123,21 @@ export function completeStep (id) {
   }
 }
 
-export function completePractice () {
+export function completePractice (id, {successes, fails}) {
+  return dispatch => {
+    const url = SERVICE_URL + `/current-practice/${id}/complete-practice`
 
+    requester.put(url, {successes, fails}, true)
+      .then(response => {
+        const practice = response.data.practice
+        dispatch({type: COMPLETE_PRACTICE, payload: {practice}})
+        browserHistory.push(`/user/practices/${practice._id}`)
+      })
+      .catch(response => {
+        console.log(response, 'err')
+        dispatch(practiceError('There was a problem completing the practice.'))
+      })
+  }
 }
 
 export function practiceError (error) {
@@ -139,8 +153,6 @@ const defaultState = {
   currentUserPracticeLists: [],
   practiceTypes: [],
   currentPractice: {},
-  totalSuccesses: 0,
-  totalFails: 0,
   currentFlourish: {},
   nextFlourish: {}
 }

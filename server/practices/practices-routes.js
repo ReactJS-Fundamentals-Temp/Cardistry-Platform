@@ -11,6 +11,14 @@ router.put('/current-practice/:id/complete-step', auth.requireAuth, (req, res) =
   practicesController.completeStep(req, res)
 })
 
+router.put('/current-practice/:id/complete-practice', auth.requireAuth, (req, res) => {
+  practicesController.completePractice(req, res)
+})
+
+router.get('', auth.requireAuth, (req, res) => {
+  practicesController.index(req, res)
+})
+
 router.post('', auth.requireAuth, (req, res) => {
   practicesController.createPractice(req, res)
 })

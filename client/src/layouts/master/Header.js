@@ -30,10 +30,10 @@ class Header extends Component {
           </MenuItem>
           <MenuItem divider />
           <MenuItem eventKey={3.1}>
-            <Link to={`practices/practice-lists/create`}>Create Practice List</Link>
+            <Link to={`user/practices/practice-lists/create`}>Create Practice List</Link>
           </MenuItem>
           <MenuItem eventKey={3.1}>
-            <Link to={`practices/practice-lists`}>View Practice Lists</Link>
+            <Link to={`user/practices/practice-lists`}>View Practice Lists</Link>
           </MenuItem>
           <MenuItem divider />
           <MenuItem eventKey={3.1}>
@@ -44,7 +44,7 @@ class Header extends Component {
           </MenuItem>
           <MenuItem divider />
           <MenuItem eventKey={3.1}>
-            <Link to={`practices/start`}>Start Practice</Link>
+            <Link to={`user/practices/start`}>Start Practice</Link>
           </MenuItem>
           <MenuItem divider />
           <MenuItem eventKey={3.1}>
