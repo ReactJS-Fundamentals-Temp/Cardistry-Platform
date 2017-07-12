@@ -14,6 +14,7 @@ import RegisterPage from './authentication/components/RegisterPage'
 import LoginPage from './authentication/components/LoginPage'
 import RequireAuth from './authentication/containers/RequireAuth'
 import RequireGuest from './authentication/containers/RequireGuest'
+import RequireAdmin from './authentication/containers/RequireAdmin'
 
 // Users
 import ProfilePage from './users/containers/ProfilePage'
@@ -43,6 +44,10 @@ import CreatePracticeListPage from './practices/components/CreatePracticeListPag
 
 // Versus
 import VersusPage from './pages/VersusPage'
+
+// Administration
+import Dashboard from './administration/components/Dashboard'
+
 
 import NotFoundPage from './pages/NotFoundPage'
 
@@ -86,6 +91,9 @@ export default class Routes extends Component {
 
           {/* Versus */}
           <Route path='/versus' component={VersusPage} />
+
+          {/* Administration */}
+          <Route path='/admin/dashboard' component={RequireAdmin(Dashboard)} />
 
           <Route path='*' component={NotFoundPage} />
         </Route>

@@ -8,14 +8,13 @@ export default function (ComposedComponent) {
         }
 
         componentWillMount() {
-
-            if (this.props.authenticated) {
+            if (!this.props.authenticated || !this.props.currentUser.roles.includes('Admin')) {
                 this.context.router.push('/')
             }
         }
 
         componentWillUpdate(nextProps) {
-            if (nextProps.authenticated) {
+            if (!nextProps.authenticated || nextProps.currentUser.roles.includes('Admin')) {
                 this.context.router.push('/')
             }
         }
@@ -26,7 +25,7 @@ export default function (ComposedComponent) {
     }
 
     function mapStateToProps(state) {
-        return { authenticated: state.authentication.authenticated }
+        return { authenticated: state.authentication.authenticated, currentUser: state.authentication.currentUser }
     }
 
     return connect(mapStateToProps)(Authentication)

@@ -11,7 +11,21 @@ class Header extends Component {
     this.props.logoutUser()
   }
 
-  renderLinks () {
+  renderAdminLinks () {
+    if (this.props.authenticated) {
+      if (this.props.currentUser.roles.includes('Admin')) {
+        return [
+          <NavDropdown eventKey={3} title='Administration' id='basic-nav-dropdown' key='accountDropdown'>
+            <MenuItem eventKey={3.1}>
+              <Link to='/admin/dashboard'>Dashboard</Link>
+            </MenuItem>
+          </NavDropdown>
+        ]
+      }
+    }
+  }
+
+  renderAuthLinks () {
     if (this.props.authenticated) {
       return [
         <NavDropdown eventKey={3} title={this.props.currentUser.username || ''} id='basic-nav-dropdown' key='accountDropdown'>
@@ -109,7 +123,8 @@ class Header extends Component {
             </NavItem>
           </Nav>
           <Nav pullRight>
-            {this.renderLinks()}
+            {this.renderAuthLinks()}
+            {this.renderAdminLinks()}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
