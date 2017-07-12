@@ -19,6 +19,9 @@ class Header extends Component {
             <MenuItem eventKey={3.1}>
               <Link to='/admin/dashboard'>Dashboard</Link>
             </MenuItem>
+            <MenuItem eventKey={3.1}>
+              <Link to='/admin/users'>Users</Link>
+            </MenuItem>
           </NavDropdown>
         ]
       }

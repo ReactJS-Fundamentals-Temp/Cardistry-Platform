@@ -9,6 +9,7 @@ import eventsReducer from './events/modules/events'
 import usersReducer from './users/modules/users'
 import practicesReducer from './practices/modules/practices'
 import consistencyReducer from './practices/modules/consistency'
+import administrationReducer from './administration/modules/administration'
 
 const configureRootReducer = () => {
   const reducers = {
@@ -20,7 +21,8 @@ const configureRootReducer = () => {
     events: eventsReducer,
     users: usersReducer,
     practices: practicesReducer,
-    consistency: consistencyReducer
+    consistency: consistencyReducer,
+    administration: administrationReducer
   }
 
   const rootReducer = combineReducers(reducers)

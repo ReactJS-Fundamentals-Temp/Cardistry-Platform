@@ -2,6 +2,26 @@ const User = require('./User')
 const jwt = require('jwt-simple')
 const config = require('../config/config')
 
+function index (req, res) {
+  User
+    .find({})
+    .then(users => {
+      console.log(users, 'USERS')
+      res.json({success: true, message: 'Fetched users successfully', users})
+    })
+}
+
+function remove (req, res) {
+  const userId = req.params.id
+
+  User
+    .findOneAndRemove({_id: userId})
+    .then(user => {
+      console.log(user)
+      res.json({success: true, message: 'User removed successfully'})
+    })
+}
+
 function register (req, res) {
   let newUserData = req.body
 
@@ -75,6 +95,8 @@ function show (req, res) {
 }
 
 module.exports = {
+  index,
+  remove,
   register,
   logout,
   signIn,

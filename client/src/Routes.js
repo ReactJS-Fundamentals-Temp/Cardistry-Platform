@@ -47,7 +47,7 @@ import VersusPage from './pages/VersusPage'
 
 // Administration
 import Dashboard from './administration/components/Dashboard'
-
+import Users from './administration/containers/Users'
 
 import NotFoundPage from './pages/NotFoundPage'
 
@@ -94,6 +94,7 @@ export default class Routes extends Component {
 
           {/* Administration */}
           <Route path='/admin/dashboard' component={RequireAdmin(Dashboard)} />
+          <Route path='/admin/users' component={RequireAdmin(Users)} />
 
           <Route path='*' component={NotFoundPage} />
         </Route>

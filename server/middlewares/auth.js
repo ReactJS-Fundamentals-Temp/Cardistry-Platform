@@ -27,9 +27,11 @@ module.exports = {
         }
 
         if (hasRole) {
+          console.log('Admin')
           next()
         } else {
-          res.redirect('/users/login')
+          console.log('Not admin')
+          res.status(400)
         }
       }
     }
