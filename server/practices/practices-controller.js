@@ -39,7 +39,7 @@ function createPractice (req, res) {
   newPractice._creator = currentUser._id
   newPractice._type = newPracticeData.type
   newPractice._practice_list = newPracticeData.practiceList
-  newPractice.required_consistency_repetitions = newPracticeData.required_consistency_repetitions
+  newPractice.required_consistency_repetitions = newPracticeData.requiredConsistencyRepetitions
   newPractice.save()
 
   res.json({success: true, message: 'Practice created successfully', practice: newPractice})

@@ -1,14 +1,12 @@
-import { browserHistory } from 'react-router'
-
 import { BASE_URL, API_VERSION } from '../../utilities/api'
 import requester from '../../utilities/requester'
+import { SET_ERROR } from '../../errors'
 
 const SERVICE_URL = `${BASE_URL}/${API_VERSION}/`
 
 // Action Types
 const FETCH_USERS = 'FETCH_USERS'
 const REMOVE_USER = 'REMOVE_USER'
-const ADMINISTRATION_ERROR = 'PRACTICE_ERROR'
 
 // Action Creators
 export function fetchUsers () {
@@ -22,7 +20,10 @@ export function fetchUsers () {
       })
       .catch(response => {
         console.log(response, 'err')
-        dispatch(practiceError('There was a problem fetching the current users practice lists.'))
+        dispatch({
+          type: SET_ERROR,
+          payload: 'There was a problem fetching the users.'
+        })
       })
   }
 }
@@ -38,17 +39,11 @@ export function removeUser (userId) {
       })
       .catch(response => {
         console.log(response, 'err')
-        dispatch(practiceError('There was a problem fetching the current users practice lists.'))
+        dispatch({
+          type: SET_ERROR,
+          payload: 'There was a problem removing the user.'
+        })
       })
-  }
-}
-
-export function practiceError (error) {
-  return dispatch => {
-    dispatch({
-      type: ADMINISTRATION_ERROR,
-      payload: error
-    })
   }
 }
 
@@ -57,8 +52,6 @@ export default function reducer (state = { users: {all: []} }, action) {
   switch (action.type) {
     case FETCH_USERS:
       return Object.assign({}, state, { users: { all: action.payload.users } })
-    case ADMINISTRATION_ERROR:
-      return Object.assign({}, state, { error: action.payload })
     case REMOVE_USER:
     default:
       return state

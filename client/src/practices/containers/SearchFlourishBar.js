@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Form, FormGroup, FormControl, Col, ControlLabel, Button, Checkbox, Panel } from 'react-bootstrap'
 
-import { searchFlourishes } from '../../flourishes/modules/flourishes'
+import { searchFlourishes, resetSearch } from '../../flourishes/modules/flourishes'
+import { resetError } from '../../errors'
 
 class SearchFlourishBar extends Component {
   constructor (props) {
@@ -15,12 +16,19 @@ class SearchFlourishBar extends Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
+  componentWillUnmount () {
+    this.props.resetError()
+    this.props.resetSearch()
+  }
+
   onSearchInputChange (e) {
     this.setState({ searchInput: e.target.value })
   }
 
   onSubmit (e) {
     e.preventDefault()
+
+    this.props.resetError()
 
     if (this.state.searchInput.trim() !== '') {
       this.props.searchFlourishes(this.state.searchInput)
@@ -40,6 +48,7 @@ class SearchFlourishBar extends Component {
               onChange={this.onSearchInputChange}
               placeholder='Search for a flourish...' />
           </div>
+
           <div className='form-group'>
             <button className='btn btn-secondary'>Search</button>
           </div>
@@ -49,8 +58,14 @@ class SearchFlourishBar extends Component {
   };
 }
 
-function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ searchFlourishes }, dispatch)
+function mapStateToProps (state) {
+  return {
+    errorMessage: state.errors.error
+  }
 }
 
-export default connect(null, mapDispatchToProps)(SearchFlourishBar)
+function mapDispatchToProps (dispatch) {
+  return bindActionCreators({ searchFlourishes, resetSearch, resetError }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchFlourishBar)

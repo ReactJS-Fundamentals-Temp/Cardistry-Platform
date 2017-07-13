@@ -10,6 +10,7 @@ import usersReducer from './users/modules/users'
 import practicesReducer from './practices/modules/practices'
 import consistencyReducer from './practices/modules/consistency'
 import administrationReducer from './administration/modules/administration'
+import errorsReducer from './errors'
 
 const configureRootReducer = () => {
   const reducers = {
@@ -22,7 +23,8 @@ const configureRootReducer = () => {
     users: usersReducer,
     practices: practicesReducer,
     consistency: consistencyReducer,
-    administration: administrationReducer
+    administration: administrationReducer,
+    errors: errorsReducer
   }
 
   const rootReducer = combineReducers(reducers)

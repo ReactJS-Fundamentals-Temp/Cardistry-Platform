@@ -2,6 +2,7 @@ import { browserHistory } from 'react-router'
 
 import { BASE_URL, API_VERSION } from '../../utilities/api'
 import requester from '../../utilities/requester'
+import { SET_ERROR } from '../../errors'
 
 const SERVICE_URL = `${BASE_URL}/${API_VERSION}/practices`
 
@@ -16,8 +17,6 @@ const FETCH_PRACTICE = 'FETCH_PRACTICE'
 const COMPLETE_STEP = 'COMPLETE_STEP'
 const COMPLETE_PRACTICE = 'COMPLETE_PRACTICE'
 
-const PRACTICE_ERROR = 'PRACTICE_ERROR'
-
 // Action Creators
 export function fetchCurrentUserPracticeLists () {
   return dispatch => {
@@ -30,7 +29,10 @@ export function fetchCurrentUserPracticeLists () {
       })
       .catch(response => {
         console.log(response, 'err')
-        dispatch(practiceError('There was a problem fetching the current users practice lists.'))
+        dispatch({
+          type: SET_ERROR,
+          payload: 'There was a problem fetching the current users practice lists.'
+        })
       })
   }
 }
@@ -44,11 +46,14 @@ export function createPracticeList ({flourishes, title}) {
       .then(response => {
         console.log(response.data, 'res')
         dispatch({type: CREATE_PRACTICE_LIST})
-        browserHistory.push('/practices/practice-lists')
+        browserHistory.push('/user/practices/practice-lists')
       })
       .catch(response => {
         console.log(response, 'err')
-        dispatch(practiceError('There was a problem creating the practice list.'))
+        dispatch({
+          type: SET_ERROR,
+          payload: 'There was a problem creating the practice list.'
+        })
       })
   }
 }
@@ -64,15 +69,18 @@ export function fetchPracticeTypes () {
       })
       .catch(response => {
         console.log(response, 'err')
-        dispatch(practiceError('There was a problem fetching the practice types.'))
+        dispatch({
+          type: SET_ERROR,
+          payload: 'There was a problem fetching the practice types.'
+        })
       })
   }
 }
 
-export function startPractice ({selectedPracticeType, selectedPracticeTypeName, selectedPracticeList, required_consistency_repetitions}) {
+export function startPractice ({selectedPracticeType, selectedPracticeTypeName, selectedPracticeList, requiredConsistencyRepetitions}) {
   return dispatch => {
     const url = SERVICE_URL
-    const data = {type: selectedPracticeType, practiceList: selectedPracticeList, required_consistency_repetitions}
+    const data = {type: selectedPracticeType, practiceList: selectedPracticeList, requiredConsistencyRepetitions}
 
     console.log(selectedPracticeTypeName)
 
@@ -86,7 +94,10 @@ export function startPractice ({selectedPracticeType, selectedPracticeTypeName, 
       })
       .catch(response => {
         console.log(response, 'err')
-        dispatch(practiceError('There was a problem creating the practice.'))
+        dispatch({
+          type: SET_ERROR,
+          payload: 'There was a problem creating the practice.'
+        })
       })
   }
 }
@@ -103,7 +114,10 @@ export function fetchPractice (id) {
       })
       .catch(response => {
         console.log(response, 'err')
-        dispatch(practiceError('There was a problem fetching the practice.'))
+        dispatch({
+          type: SET_ERROR,
+          payload: 'There was a problem fetching the practice.'
+        })
       })
   }
 }
@@ -118,7 +132,10 @@ export function completeStep (id, {successes, fails}) {
       })
       .catch(response => {
         console.log(response, 'err')
-        dispatch(practiceError('There was a problem completing the step.'))
+        dispatch({
+          type: SET_ERROR,
+          payload: 'There was a problem completing the step.'
+        })
       })
   }
 }
@@ -135,17 +152,11 @@ export function completePractice (id, {successes, fails}) {
       })
       .catch(response => {
         console.log(response, 'err')
-        dispatch(practiceError('There was a problem completing the practice.'))
+        dispatch({
+          type: SET_ERROR,
+          payload: 'There was a problem completing the practice.'
+        })
       })
-  }
-}
-
-export function practiceError (error) {
-  return dispatch => {
-    dispatch({
-      type: PRACTICE_ERROR,
-      payload: error
-    })
   }
 }
 
@@ -170,8 +181,6 @@ export default function reducer (state = defaultState, action) {
       return Object.assign({}, state, { currentUserPracticeLists: action.payload.practiceLists })
     case FETCH_PRACTICE_TYPES:
       return Object.assign({}, state, { practiceTypes: action.payload.practiceTypes })
-    case PRACTICE_ERROR:
-      return Object.assign({}, state, { error: action.payload })
     case COMPLETE_STEP:
 
       return Object.assign({}, state, {

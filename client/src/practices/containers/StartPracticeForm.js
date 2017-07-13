@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Form, FormGroup, FormControl, Col, ControlLabel, Button, Panel } from 'react-bootstrap'
-
+import { browserHistory } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { reduxForm } from 'redux-form'
 
@@ -32,7 +32,7 @@ class StartPracticeForm extends Component {
     this.setState({
       selectedPracticeType: nextProps.practiceTypes[0]._id,
       selectedPracticeTypeName: nextProps.practiceTypes[0].name,
-      selectedPracticeList: nextProps.currentUserPracticeLists[0]._id
+      selectedPracticeList: nextProps.currentUserPracticeLists[0]._id || null
     })
   }
 
@@ -58,13 +58,13 @@ class StartPracticeForm extends Component {
     })
   }
 
-  handleFormSubmit ({required_consistency_repetitions}) {
+  handleFormSubmit ({requiredConsistencyRepetitions}) {
     console.log(this.state.selectedPracticeTypeName)
     this.props.startPractice({
       selectedPracticeType: this.state.selectedPracticeType,
       selectedPracticeTypeName: this.state.selectedPracticeTypeName,
       selectedPracticeList: this.state.selectedPracticeList,
-      required_consistency_repetitions
+      requiredConsistencyRepetitions
     })
   }
 
@@ -79,36 +79,49 @@ class StartPracticeForm extends Component {
   }
 
   render () {
-    const {fields: { required_consistency_repetitions }, handleSubmit} = this.props
+    const {fields: { requiredConsistencyRepetitions }, handleSubmit} = this.props
+
+    console.log(this.props.currentUserPracticeLists)
+    if (this.props.currentUserPracticeLists.length < 1) {
+      browserHistory.push('/user/practices/practice-lists/create')
+    }
 
     return (
       <Panel>
         <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
 
           <FormGroup controlId='formControlsSelect'>
-            <ControlLabel>Select Practice Type</ControlLabel>
-            <FormControl componentClass='select' placeholder='select' onChange={this.selectPracticeType}>
-              { this.props.practiceTypes.map(practiceType => {
-                return <option key={practiceType.name} value={practiceType._id}>{practiceType.name}</option>
-              })}
-            </FormControl>
+            <Col sm={12}>
+              <ControlLabel>Select Practice Type</ControlLabel>
+              <FormControl componentClass='select' placeholder='select' onChange={this.selectPracticeType}>
+                { this.props.practiceTypes.map(practiceType => {
+                  return <option key={practiceType.name} value={practiceType._id}>{practiceType.name}</option>
+                })}
+              </FormControl>
+            </Col>
           </FormGroup>
 
           <FormGroup controlId='formControlsSelect'>
-            <ControlLabel>Select Practice List</ControlLabel>
-            <FormControl componentClass='select' placeholder='select' onChange={this.selectPracticeList}>
-              { this.props.currentUserPracticeLists.map(practiceList => {
-                return <option key={practiceList._id} value={practiceList._id}>{practiceList.title}</option>
-              })}
-            </FormControl>
+            <Col sm={12}>
+              <ControlLabel>Select Practice List</ControlLabel>
+              <FormControl componentClass='select' placeholder='select' onChange={this.selectPracticeList}>
+                { this.props.currentUserPracticeLists.map(practiceList => {
+                  return <option key={practiceList._id} value={practiceList._id}>{practiceList.title}</option>
+                })}
+              </FormControl>
+            </Col>
           </FormGroup>
 
-          <FormGroup controlId='formHorizontalEmail'>
-            <FormControl type='text' placeholder='Repetitions per Flourish' {...required_consistency_repetitions} />
+          <FormGroup controlId='formHorizontalRepetitions'>
+            <Col sm={12}>
+              <FormControl type='text' placeholder='Repetitions per Flourish' {...requiredConsistencyRepetitions} />
+              {requiredConsistencyRepetitions.touched && requiredConsistencyRepetitions.error && <div className='error'>{requiredConsistencyRepetitions.error}</div>}
+
+            </Col>
           </FormGroup>
 
           <FormGroup>
-            <Col smOffset={2} sm={10}>
+            <Col sm={12}>
               <Button type='submit'>
                   Start Practice
               </Button>
@@ -123,6 +136,10 @@ class StartPracticeForm extends Component {
 function validate (values) {
   const errors = {}
 
+  if (!values.requiredConsistencyRepetitions) {
+    errors.requiredConsistencyRepetitions = 'Repetitions per Flourish is required'
+  }
+
     // TODO VALIDATION
   return errors
 }
@@ -131,7 +148,7 @@ function mapStateToProps (state) {
   return {
     currentUserPracticeLists: state.practices.currentUserPracticeLists,
     practiceTypes: state.practices.practiceTypes,
-    errorMessage: state.events.error
+    errorMessage: state.errors.error
   }
 }
 
@@ -141,6 +158,6 @@ function mapDispatchToProps (dispatch) {
 
 export default reduxForm({
   form: 'StartPracticeForm',
-  fields: ['required_consistency_repetitions'],
+  fields: ['requiredConsistencyRepetitions'],
   validate
 }, mapStateToProps, mapDispatchToProps)(StartPracticeForm)

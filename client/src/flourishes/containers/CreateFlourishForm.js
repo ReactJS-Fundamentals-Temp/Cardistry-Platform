@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import Dropzone from 'react-dropzone'
-import { Form, FormGroup, FormControl, Col, ControlLabel, Button } from 'react-bootstrap'
+import { Form, FormGroup, FormControl, Col, ControlLabel, Button, Panel } from 'react-bootstrap'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -43,60 +43,59 @@ class CreateFlourishForm extends Component {
         const {fields: {title, description, video, thumbnail, images}, handleSubmit} = this.props;
 
         return (
-        <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
-            <FormGroup controlId="formHorizontalEmail">
-            <Col componentClass={ControlLabel} sm={2}>
-            </Col>
-            <Col sm={10}>
-                <FormControl type="text" placeholder="Title" {...title} />
-            </Col>
-            </FormGroup>
+        <Panel>
+            <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
+                <FormGroup controlId="formHorizontalEmail">
+                <Col sm={12}>
+                    <FormControl type="text" placeholder="Title" {...title} />
+                    {title.touched && title.error && <div className='error'>{title.error}</div>}
+                </Col>
+                </FormGroup>
 
-            <FormGroup controlId="formHorizontalPassword">
-            <Col componentClass={ControlLabel} sm={2}>
-                Description
-            </Col>
-            <Col sm={10}>
-                <FormControl type="text" placeholder="Description" {...description} />
-            </Col>
-            </FormGroup>
+                <FormGroup controlId="formHorizontalPassword">
+                <Col sm={12}>
+                    <FormControl type="text" placeholder="Description" {...description} />
+                    {description.touched && description.error && <div className='error'>{description.error}</div>}
+                </Col>
+                </FormGroup>
 
+        {/*
+                <FormGroup controlId="formHorizontalPassword">
+                <Col componentClass={ControlLabel} sm={2}>
+                    Video
+                </Col>
+                <Col sm={10}>
+                    <FormControl type="file" onDrop={this.onDrop()} placeholder="Video" {...video} value={undefined} />
+                </Col>
+                </FormGroup>
 
-            <FormGroup controlId="formHorizontalPassword">
-            <Col componentClass={ControlLabel} sm={2}>
-                Video
-            </Col>
-            <Col sm={10}>
-                <FormControl type="file" onDrop={this.onDrop()} placeholder="Video" {...video} value={undefined} />
-            </Col>
-            </FormGroup>
+                <FormGroup controlId="formHorizontalPassword">
+                <Col componentClass={ControlLabel} sm={2}>
+                    Thumbnail
+                </Col>
+                <Col sm={10}>
+                    <FormControl type="file" placeholder="Thumbnail" {...thumbnail} />
+                </Col>
+                </FormGroup>
 
-            <FormGroup controlId="formHorizontalPassword">
-            <Col componentClass={ControlLabel} sm={2}>
-                Thumbnail
-            </Col>
-            <Col sm={10}>
-                <FormControl type="file" placeholder="Thumbnail" {...thumbnail} />
-            </Col>
-            </FormGroup>
+                <FormGroup controlId="formHorizontalPassword">
+                <Col componentClass={ControlLabel} sm={2}>
+                    Images
+                </Col>
+                <Col sm={10}>
+                    <FormControl type="file" placeholder="Images" {...images} />
+                </Col>
+                </FormGroup>*/}
 
-            <FormGroup controlId="formHorizontalPassword">
-            <Col componentClass={ControlLabel} sm={2}>
-                Images
-            </Col>
-            <Col sm={10}>
-                <FormControl type="file" placeholder="Images" {...images} />
-            </Col>
-            </FormGroup>
-
-            <FormGroup>
-            <Col smOffset={2} sm={10}>
-                <Button type="submit">
-                    Upload Flourish
-                </Button>
-            </Col>
-            </FormGroup>
-        </Form>
+                <FormGroup>
+                <Col sm={12}>
+                    <Button type="submit">
+                        Upload Flourish
+                    </Button>
+                </Col>
+                </FormGroup>
+            </Form>
+        </Panel>
         )
     }
 }
@@ -120,7 +119,7 @@ function validate(values) {
 
 function mapStateToProps(state) {
     return {
-        errorMessage: state.flourishes.error
+        errorMessage: state.errors.error
     }
 }
 

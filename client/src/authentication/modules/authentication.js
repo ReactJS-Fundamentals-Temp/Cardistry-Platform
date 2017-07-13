@@ -3,6 +3,7 @@ import { browserHistory } from 'react-router'
 
 import { BASE_URL, API_VERSION } from '../../utilities/api'
 import requester from '../../utilities/requester'
+import { SET_ERROR } from '../../errors'
 
 const SERVICE_URL = `${BASE_URL}/${API_VERSION}/users`
 
@@ -10,7 +11,6 @@ const SERVICE_URL = `${BASE_URL}/${API_VERSION}/users`
 // const REGISTER_USER = 'REGISTER_USER'
 export const LOGIN_USER = 'LOGIN_USER'
 const LOGOUT_USER = 'LOGOUT_USER'
-const AUTH_ERROR_USER = 'AUTH_ERROR_USER'
 
 // Action Creators
 export function registerUser ({email, username, password, confirmPassword}) {
@@ -21,7 +21,10 @@ export function registerUser ({email, username, password, confirmPassword}) {
             })
             .catch(response => {
               console.log(response, 'err')
-              dispatch(authErrorUser(response.data.error))
+              dispatch({
+                type: SET_ERROR,
+                payload: 'Problem with registration.'
+              })
             })
   }
 }
@@ -36,7 +39,10 @@ export function loginUser ({email, password}) {
             })
             .catch(err => {
               console.log(err)
-              dispatch(authErrorUser('Wrong email or password.'))
+              dispatch({
+                type: SET_ERROR,
+                payload: 'Wrong email or password.'
+              })
             })
   }
 }
@@ -49,15 +55,6 @@ export function logoutUser () {
   }
 }
 
-export function authErrorUser (error) {
-  return dispatch => {
-    dispatch({
-      type: AUTH_ERROR_USER,
-      payload: error
-    })
-  }
-}
-
 // Reducer
 export default function reducer (state = { authenticated: false, currentUser: {} }, action = {}) {
   switch (action.type) {
@@ -65,8 +62,6 @@ export default function reducer (state = { authenticated: false, currentUser: {}
       return Object.assign({}, state, { authenticated: true, currentUser: action.payload.user })
     case LOGOUT_USER:
       return Object.assign({}, state, { authenticated: false, currentUser: {} })
-    case AUTH_ERROR_USER:
-      return Object.assign({}, state, { error: action.payload })
     default: return state
   }
 }

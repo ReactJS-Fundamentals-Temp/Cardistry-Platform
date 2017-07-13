@@ -45,20 +45,32 @@ class CreateEventForm extends Component {
         return (
             <Panel>
                 <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
-                    <FormGroup controlId="formHorizontalEmail">
-                        <FormControl type="text" placeholder="Title" {...title} />
+                    <FormGroup controlId="formHorizontalTitle">
+                        <Col sm={12}>
+                            <FormControl type="text" placeholder="Title" {...title} />
+                            {title.touched && title.error && <div className='error'>{title.error}</div>}
+
+                        </Col>
                     </FormGroup>
 
-                    <FormGroup controlId="formHorizontalPassword">
-                        <FormControl type="text" placeholder="Description" {...description} />
+                    <FormGroup controlId="formHorizontalDescription">
+                        <Col sm={12}>
+                            <FormControl type="text" placeholder="Description" {...description} />
+                            {description.touched && description.error && <div className='error'>{description.error}</div>}
+
+                        </Col>
                     </FormGroup>
 
-                    <FormGroup controlId="formHorizontalPassword">
-                        <FormControl type="text" placeholder="Location" {...location} />
+                    <FormGroup controlId="formHorizontalLocation">
+                        <Col sm={12}>
+                            <FormControl type="text" placeholder="Location" {...location} />
+                            {location.touched && location.error && <div className='error'>{location.error}</div>}
+
+                        </Col>
                     </FormGroup>
 
                     <FormGroup>
-                    <Col smOffset={2} sm={10}>
+                    <Col sm={12}>
                         <Button type="submit">
                             Create Event
                         </Button>
@@ -92,7 +104,7 @@ function validate(values) {
 
 function mapStateToProps(state) {
     return {
-        errorMessage: state.events.error
+        errorMessage: state.errors.error
     }
 }
 

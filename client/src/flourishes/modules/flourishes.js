@@ -2,6 +2,7 @@ import { browserHistory } from 'react-router'
 
 import { BASE_URL, API_VERSION } from '../../utilities/api'
 import requester from '../../utilities/requester'
+import { SET_ERROR } from '../../errors'
 
 const SERVICE_URL = `${BASE_URL}/${API_VERSION}/flourishes`
 
@@ -10,7 +11,7 @@ const FETCH_FLOURISHES = 'FETCH_FLOURISHES'
 const CREATE_FLOURISH = 'CREATE_FLOURISH'
 const FETCH_USER_FLOURISHES = 'FETCH_USER_FLOURISHES'
 const SEARCH_FLOURISHES = 'SEARCH_FLOURISHES'
-const FLOURISH_ERROR = 'FLOURISH_ERROR'
+const RESET_SEARCH = 'RESET_SEARCH'
 
 // Action Creators
 export function fetchFlourishes () {
@@ -22,7 +23,10 @@ export function fetchFlourishes () {
             })
             .catch(response => {
               console.log(response, 'err')
-              dispatch(flourishError('There was a problem fetching the flourishes.'))
+              dispatch({
+                type: SET_ERROR,
+                payload: 'There was a problem fetching the flourishes.'
+              })
             })
   }
 }
@@ -40,7 +44,10 @@ export function createFlourish ({title, description, video, thumbnail, images}) 
       })
       .catch(response => {
         console.log(response, 'err')
-        dispatch(flourishError('There was a problem creating the flourish.'))
+        dispatch({
+          type: SET_ERROR,
+          payload: 'There was a problem creating the flourish.'
+        })
       })
   }
 }
@@ -56,7 +63,10 @@ export function fetchUserFlourishes (username) {
       })
       .catch(response => {
         console.log(response, 'err')
-        dispatch(flourishError('There was a problem fetching the flourishes.'))
+        dispatch({
+          type: SET_ERROR,
+          payload: 'There was a problem fetching the flourishes.'
+        })
       })
   }
 }
@@ -69,20 +79,27 @@ export function searchFlourishes (title) {
       .then(response => {
         console.log(response.data.flourishes, 'res')
         dispatch({type: SEARCH_FLOURISHES, payload: { flourishes: response.data.flourishes }})
+
+        if (response.data.flourishes.length < 1) {
+          dispatch({
+            type: SET_ERROR,
+            payload: 'No flourishes found in our vault. Please try to find another flourish.'
+          })
+        }
       })
       .catch(response => {
         console.log(response, 'err')
-        dispatch(flourishError('There was a problem searching the flourishes.'))
+        dispatch({
+          type: SET_ERROR,
+          payload: 'There was a problem searching the flourishes.'
+        })
       })
   }
 }
 
-export function flourishError (error) {
+export function resetSearch () {
   return dispatch => {
-    dispatch({
-      type: FLOURISH_ERROR,
-      payload: error
-    })
+    dispatch({type: RESET_SEARCH})
   }
 }
 
@@ -95,9 +112,8 @@ export default function reducer (state = {all: [], userFlourishes: [], searchRes
       return Object.assign({}, state, { userFlourishes: action.payload.flourishes })
     case SEARCH_FLOURISHES:
       return Object.assign({}, state, { searchResults: state.searchResults.concat(action.payload.flourishes) })
-    case FLOURISH_ERROR:
-      return Object.assign({}, state, { error: action.payload })
-
+    case RESET_SEARCH:
+      return Object.assign({}, state, { searchResults: [] })
     case CREATE_FLOURISH:
     default: return state
   }

@@ -1,129 +1,142 @@
 import React, { Component, PropTypes } from 'react'
 import { Form, FormGroup, FormControl, Col, ControlLabel, Button, Checkbox, Panel } from 'react-bootstrap'
-
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
-
-import { fetchFlourishes } from '../../flourishes/modules/flourishes'
 import { createPracticeList } from '../modules/practices'
-
-import FlourishJumbotron from '../../flourishes/components/FlourishJumbotron'
-
+import { setError, resetError } from '../../errors'
 
 class CreatePracticeListForm extends Component {
-    constructor(props) {
-        super(props)
+  constructor (props) {
+    super(props)
 
-        this.handleFormSubmit = this.handleFormSubmit.bind(this)
-        this.toggleCheckbox = this.toggleCheckbox.bind(this)
+    this.handleFormSubmit = this.handleFormSubmit.bind(this)
+    this.toggleCheckbox = this.toggleCheckbox.bind(this)
 
-        this.state = {
-            selectedFlourishes: []
+    this.state = {
+      selectedFlourishes: []
+    }
+  }
+
+  componentWillUnmount () {
+    this.props.resetError()
+
+    this.setState({
+      selectedFlourishes: []
+    })
+  }
+
+  toggleCheckbox (event) {
+    let checkedFlourishId = event.target.getAttribute('data-id')
+    let isChecked = event.target.checked
+
+    if (isChecked) {
+      this.setState(prevState => ({
+        selectedFlourishes: prevState.selectedFlourishes.concat([checkedFlourishId])
+      }))
+    } else {
+      for (let [index, flourishId] of this.state.selectedFlourishes.entries()) {
+        if (String(flourishId) === String(checkedFlourishId)) {
+          this.setState(prevState => ({
+            selectedFlourishes: prevState.selectedFlourishes.filter((_, i) => i !== index)
+          }))
         }
+      }
+    }
+  }
+
+  handleFormSubmit ({title}) {
+    console.log(title, 'title before redux')
+    console.log(this.state.selectedFlourishes, 'flourishes before redux')
+
+    if (this.state.selectedFlourishes.length < 3) {
+      console.log('LESS')
+      return this.props.setError('You must select at least 3 flourishes.')
     }
 
-    static contextTypes = {
-        router: PropTypes.object
+    this.props.createPracticeList({flourishes: this.state.selectedFlourishes, title})
+  }
+
+  renderFlourishes () {
+    if (this.props.flourishes < 1) {
+      return (<p>No flourishes selected.</p>)
     }
 
-    toggleCheckbox (event) {
-        let checkedFlourishId = event.target.getAttribute("data-id")
-        let isChecked = event.target.checked
+    return this.props.flourishes.map(flourish => {
+      return (
+        <Checkbox className='flourish-checkbox' key={flourish._id} onChange={this.toggleCheckbox} data-id={flourish._id}>
+          {flourish.title}
+        </Checkbox>
+      )
+    })
+  }
 
-        if (isChecked) {
-             this.setState(prevState => ({
-                selectedFlourishes: prevState.selectedFlourishes.concat([checkedFlourishId])
-            }))
-        } else {
-            for (let [index, flourishId] of this.state.selectedFlourishes.entries()) {
-                if (String(flourishId) === String(checkedFlourishId)) {
-                    this.setState(prevState => ({
-                        selectedFlourishes: prevState.selectedFlourishes.filter((_, i) => i !== index)
-                    }))
-                }
-            }
-        }
+  renderAlert () {
+    if (this.props.errorMessage) {
+      return (
+        <div className='alert alert-danger'>
+          <strong>{this.props.errorMessage}</strong>
+        </div>
+      )
     }
+  }
 
-    handleFormSubmit({title}) {
-        console.log(title, 'title before redux')
-        console.log(this.state.selectedFlourishes, 'flourishes before redux')
+  render () {
+    const {fields: {title}, handleSubmit} = this.props
 
-        this.props.createPracticeList({flourishes: this.state.selectedFlourishes, title})
-    }
+    return (
+      <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
+        <FormGroup>
+          <Col sm={12}>
+            <Panel>
+              {this.renderFlourishes()}
+            </Panel>
+          </Col>
+        </FormGroup>
 
-    renderFlourishes() {
-        if (this.props.flourishes < 1) {
-            return ( <p>No flourishes selected.</p>)
-        }
+        <FormGroup controlId='formHorizontalTitle'>
+          <Col sm={12}>
+            <FormControl type='text' placeholder='Title' {...title} />
+            {title.touched && title.error && <div className='error'>{title.error}</div>}
+          </Col>
+        </FormGroup>
 
-        return this.props.flourishes.map(flourish => {
-            return (
-                <Checkbox className='flourish-checkbox' key={flourish._id} onChange={this.toggleCheckbox} data-id={flourish._id}>
-                {flourish.title}
-                </Checkbox>
-            )
-        })
-    }
-
-    renderAlert() {
-        if (this.props.errorMessage) {
-            return (
-                <div className='alert alert-danger'>
-                    <strong>{this.props.errorMessage}</strong>
-                </div>
-            )
-        }
-    }
-
-
-    render() {
-        const {fields: {title}, handleSubmit} = this.props
-
-        return (
-            <Form horizontal onSubmit={handleSubmit(this.handleFormSubmit)}>
-            <FormGroup>
-                <Panel>
-                    {this.renderFlourishes()}
-                </Panel>
-            </FormGroup>
-
-            <FormGroup controlId="formHorizontalTitle">
-                <FormControl type="text" placeholder="Title" {...title} />
-            </FormGroup>
-
-            <FormGroup>
-                <Button type="submit">
-                    Create PracticeList
-                </Button>
-            </FormGroup>
-            </Form>
-        )
-    }
+        <FormGroup>
+          <Col sm={12}>
+            {this.renderAlert()}
+            <Button type='submit'>
+                        Create PracticeList
+                    </Button>
+          </Col>
+        </FormGroup>
+      </Form>
+    )
+  }
 }
 
+function validate (values) {
+  const errors = {}
 
-function validate(values) {
-    const errors = {}
+  if (!values.title) {
+    errors.title = 'Title is required'
+  }
 
-    //TODO VALIDATION
-    return errors
+    // TODO VALIDATION
+  return errors
 }
 
-function mapStateToProps(state) {
-    return {
-        flourishes: state.flourishes.searchResults,
-        errorMessage: state.events.error
-    }
+function mapStateToProps (state) {
+  return {
+    flourishes: state.flourishes.searchResults,
+    errorMessage: state.errors.error
+  }
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ createPracticeList }, dispatch)
+function mapDispatchToProps (dispatch) {
+  return bindActionCreators({ createPracticeList, resetError, setError }, dispatch)
 }
 
 export default reduxForm({
-    form: 'CreatePracticeListForm',
-    fields: ['title'],
-    validate
+  form: 'CreatePracticeListForm',
+  fields: ['title'],
+  validate
 }, mapStateToProps, mapDispatchToProps)(CreatePracticeListForm)
