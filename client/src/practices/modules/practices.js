@@ -11,6 +11,7 @@ const FETCH_CURRENT_USER_PRACTICE_LISTS = 'FETCH_CURRENT_USER_PRACTICE_LISTS'
 const CREATE_PRACTICE_LIST = 'CREATE_PRACTICE_LIST'
 
 const FETCH_PRACTICE_TYPES = 'FETCH_PRACTICE_TYPES'
+const FETCH_USER_PRACTICES = 'FETCH_USER_PRACTICES'
 const START_PRACTICE = 'START_PRACTICE'
 const FETCH_PRACTICE = 'FETCH_PRACTICE'
 
@@ -72,6 +73,25 @@ export function fetchPracticeTypes () {
         dispatch({
           type: SET_ERROR,
           payload: 'There was a problem fetching the practice types.'
+        })
+      })
+  }
+}
+
+export function fetchUserPractices () {
+  return dispatch => {
+    const url = SERVICE_URL + '/user'
+
+    requester.get(url, true)
+      .then(response => {
+        console.log(response.data, 'res')
+        dispatch({type: FETCH_USER_PRACTICES, payload: {practices: response.data.practices}})
+      })
+      .catch(response => {
+        console.log(response, 'err')
+        dispatch({
+          type: SET_ERROR,
+          payload: 'There was a problem fetching the current users practice lists.'
         })
       })
   }
@@ -161,6 +181,7 @@ export function completePractice (id, {successes, fails}) {
 }
 
 const defaultState = {
+  currentUserPractices: [],
   currentUserPracticeLists: [],
   practiceTypes: [],
   currentPractice: {},
@@ -171,6 +192,8 @@ const defaultState = {
 // Reducer
 export default function reducer (state = defaultState, action) {
   switch (action.type) {
+    case FETCH_USER_PRACTICES:
+      return Object.assign({}, state, {currentUserPractices: action.payload.practices})
     case FETCH_PRACTICE:
       const practice = action.payload.practice
       const currentFlourish = practice._practice_list.flourishes[practice.step]

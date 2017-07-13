@@ -27,6 +27,7 @@ class PracticeSummary extends Component {
         <h1>PRACTICE SUMMARY</h1>
         <p>Total successes: {practice.total_successes}</p>
         <p>Total fails: {practice.total_fails}</p>
+        <p>Required Flourish repetitions: {practice.required_consistency_repetitions}</p>
       </Panel>
     )
   };

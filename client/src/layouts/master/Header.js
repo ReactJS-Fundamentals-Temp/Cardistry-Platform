@@ -42,8 +42,12 @@ class Header extends Component {
           <MenuItem eventKey={3.1}>
             <Link to={`flourishes/create`}>Upload Flourish</Link>
           </MenuItem>
+          <MenuItem divider />
           <MenuItem eventKey={3.1}>
-            <Link to={`performances/create`}>Upload Performance</Link>
+            <Link to={`user/practices/start`}>Start Practice</Link>
+          </MenuItem>
+          <MenuItem eventKey={3.1}>
+            <Link to={`user/practices`}>View Practices</Link>
           </MenuItem>
           <MenuItem divider />
           <MenuItem eventKey={3.1}>
@@ -54,14 +58,7 @@ class Header extends Component {
           </MenuItem>
           <MenuItem divider />
           <MenuItem eventKey={3.1}>
-            <Link to={`tournaments/create`}>Create a Tournament</Link>
-          </MenuItem>
-          <MenuItem eventKey={3.1}>
-            <Link to={`tournaments`}>View All Tournaments</Link>
-          </MenuItem>
-          <MenuItem divider />
-          <MenuItem eventKey={3.1}>
-            <Link to={`user/practices/start`}>Start Practice</Link>
+            <Link to={`tournaments/create`}>Create Tournament</Link>
           </MenuItem>
           <MenuItem divider />
           <MenuItem eventKey={3.1}>

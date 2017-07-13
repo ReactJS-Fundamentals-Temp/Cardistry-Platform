@@ -6,6 +6,25 @@ function index (req, res) {
 
 }
 
+function getCurrentUserPractices (req, res) {
+  let currentUserId = req.user._id
+
+  Practice
+    .find({_creator: currentUserId})
+    .populate('_type')
+    .populate({
+      path: '_practice_list',
+      model: 'PracticeList',
+      populate: {
+        path: 'flourishes',
+        model: 'Flourish'
+      }})
+    .sort({'createdAt': -1})
+    .then(practices => {
+      res.json({success: true, message: 'Practices fetched successfully', practices})
+    })
+}
+
 function getPractice (req, res) {
   let practiceId = req.params.id
 
@@ -64,11 +83,14 @@ function completeStep (req, res) {
     .then(practice => {
       console.log(practice, 'PRACTICE')
 
+      console.log(practice.total_successes, 'TS BF')
+
       practice.step += 1
       practice.total_successes += successes
       practice.total_fails += fails
       practice.save()
 
+      console.log(practice.total_successes, 'TS AF')
       res.json({success: true, message: 'Step completed successfully', practice: practice})
     })
 }
@@ -143,5 +165,6 @@ module.exports = {
   getPracticeTypes,
   getPractice,
   completeStep,
-  completePractice
+  completePractice,
+  getCurrentUserPractices
 }

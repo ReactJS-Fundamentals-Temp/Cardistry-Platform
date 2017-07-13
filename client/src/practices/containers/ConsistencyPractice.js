@@ -28,11 +28,12 @@ class ConsistencyPractice extends Component {
 
     if (nextProps.streak === this.props.practice.required_consistency_repetitions) {
       if (nextProps.practice.step !== this.props.practice._practice_list.flourishes.length - 1) {
-        this.props.completeStep(this.state.practiceId, {successes: this.props.totalSuccesses, fails: this.props.totalFails})
+        console.log(this.props.totalSuccesses, 'TOTAL SUCCESSES')
+        this.props.completeStep(this.state.practiceId, {successes: nextProps.totalSuccesses, fails: nextProps.totalFails})
       } else {
         // Complete Practice
         console.log('COMPLETE')
-        this.props.completePractice(this.state.practiceId, {successes: this.props.totalSuccesses, fails: this.props.totalFails})
+        this.props.completePractice(this.state.practiceId, {successes: nextProps.totalSuccesses, fails: nextProps.totalFails})
       }
 
       this.props.resetScore()

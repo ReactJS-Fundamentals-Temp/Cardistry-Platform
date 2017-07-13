@@ -48,9 +48,9 @@ class CreatePracticeListForm extends Component {
     console.log(title, 'title before redux')
     console.log(this.state.selectedFlourishes, 'flourishes before redux')
 
-    if (this.state.selectedFlourishes.length < 3) {
+    if (this.state.selectedFlourishes.length < 2) {
       console.log('LESS')
-      return this.props.setError('You must select at least 3 flourishes.')
+      return this.props.setError('You must select at least 2 flourishes.')
     }
 
     this.props.createPracticeList({flourishes: this.state.selectedFlourishes, title})

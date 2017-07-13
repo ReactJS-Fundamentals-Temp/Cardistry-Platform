@@ -19,6 +19,10 @@ router.get('', auth.requireAuth, (req, res) => {
   practicesController.index(req, res)
 })
 
+router.get('/user', auth.requireAuth, (req, res) => {
+  practicesController.getCurrentUserPractices(req, res)
+})
+
 router.post('', auth.requireAuth, (req, res) => {
   practicesController.createPractice(req, res)
 })

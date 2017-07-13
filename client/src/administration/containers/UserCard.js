@@ -27,7 +27,7 @@ class UserCard extends Component {
         <Jumbotron>
           <h1>{user.username}</h1>
           <Button data-id={user._id} onClick={this.removeUserClicked.bind(this)}>Delete</Button>
-          <Button data-id={user._id} onClick={this.makeAdminUserClicked.bind(this)}>Make Admin</Button>
+          {/*<Button data-id={user._id} onClick={this.makeAdminUserClicked.bind(this)}>Make Admin</Button>*/}
         </Jumbotron>
       </div>
     )
