@@ -1,6 +1,7 @@
 
 ## Start:
 npm install
+
 npm run devstart
 
 ## Използвани технологии:
