@@ -2,6 +2,7 @@
 ## Използвани технологии:
 
 Database: MongoDB
+
 Back-End: NodeJS, ExpressJS, MongooseJS, Passport
 
 Front-End: React, Redux, HTML, CSS,
